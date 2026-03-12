@@ -17,6 +17,10 @@ fillDropdown("breadthUnit2", lengthUnits);
 fillDropdown("areaUnit", areaUnits);
 fillDropdown("areaUnitForPrice", areaUnits);
 
+document.getElementById("viewHistory").addEventListener("click", () => {
+    window.location.href = "/history";
+});
+
 document.getElementById("hideResultCard").addEventListener("click", () => {
     document.getElementById("resultCard").style.display = "none";
 });
@@ -37,12 +41,12 @@ function calculate() {
     try {
         document.getElementById("resultCard").style.display = "block";
 
-        let l1 = parseFloat(length1.value);
-        let l2 = parseFloat(length2.value);
-        let b1 = parseFloat(breadth1.value);
-        let b2 = parseFloat(breadth2.value);
-        let op = parseFloat(operator.value);
-        let priceVal = parseFloat(price.value);
+        let l1 = parseFloat(length1.value) || 0;
+        let l2 = parseFloat(length2.value) || 0;
+        let b1 = parseFloat(breadth1.value) || 0;
+        let b2 = parseFloat(breadth2.value) || 0;
+        let op = parseFloat(operator.value) || 0;
+        let priceVal = parseFloat(price.value) || 0;
 
         let length = convertToMeter(l1, lengthUnit1.value) + convertToMeter(l2, lengthUnit2.value);
         let breadth = convertToMeter(b1, breadthUnit1.value) + convertToMeter(b2, breadthUnit2.value);
