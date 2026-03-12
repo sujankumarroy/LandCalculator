@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Land Calculator — History</title>
-    <link rel="stylesheet" href="css/result.css">
+    <link rel="stylesheet" href="css/history.css">
 </head>
 <body data-page="history" class="ultra-vibrant">
     <header class="topbar">
@@ -23,24 +23,17 @@
             <div class="row" style="justify-content:space-between;align-items:center;">
                 <h2>Saved Calculations</h2>
                 <div>
-                    <button id="exportBtn" class="btn btn--outline">Export JSON</button>
-                    <button id="clearHistoryBtn" class="btn btn--ghost">Clear</button>
+                    <button id="exportBtn" class="btn btn--outline" onclick="exportHistory()">Export History</button>
+                    <button id="clearHistoryBtn" class="btn btn--ghost" onclick="clearHistory()">Clear History</button>
                 </div>
             </div>
 
+            <br>
             <div id="historyList" class="history-list" style="margin-top:12px;">
                 <!-- entries appended here -->
             </div>
         </section>
     </main>
-
-    <section class="card">
-        <h2>History</h2>
-        <button class="secondary" onclick="showHistory()">View History</button>
-        <button class="danger" onclick="clearHistory()">Clear History</button>
-        <button class="primary" onclick="exportHistory()">Export History</button>
-        <div id="historyList"></div>
-    </section>
 
     <div id="modal" class="modal" style="display:none;">
         <div class="modal-card">
@@ -55,7 +48,6 @@
 
     <div id="toast" class="toast" style="display:none;"></div>
 
-    <script src="js/result.js"></script>
-    <script>pageInit_history()</script>
+    <script src="js/history.js"></script>
 </body>
 </html>
