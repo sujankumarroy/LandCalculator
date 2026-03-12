@@ -1,0 +1,21 @@
+{
+    "name": "Land Calculator",
+    "short_name": "LandCalc",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#6200ee",
+    "orientation": "any",
+    "icons": [
+        {
+            "src": "assets/icons/ic_icon.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/icons/ic_icon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
