@@ -17,6 +17,17 @@ fillDropdown("breadthUnit2", lengthUnits);
 fillDropdown("areaUnit", areaUnits);
 fillDropdown("areaUnitForPrice", areaUnits);
 
+document.getElementById("copyResult").addEventListener("click", () => {
+    const area = document.getElementById("resultArea").textContent;
+    const price = document.getElementById("resultPrice").textContent;
+
+    const text = `Land Calculation Result
+Area: ${area}
+Price: ${price}`;
+
+    navigator.clipboard.writeText(text);
+});
+
 document.getElementById("viewHistory").addEventListener("click", () => {
     window.location.href = "/history";
 });
@@ -63,14 +74,11 @@ function calculate() {
 
         let amount = op * area * priceVal;
 
-        result.innerHTML =
-            "Area: " + finalArea.toFixed(2) + " " + unit +
-            "<br>Amount: ₹" + amount.toFixed(2);
-
+        showResult(finalArea, unit, amount);
         if (finalArea) saveHistory(finalArea, unit, amount);
 
     } catch(e) {
-        result.innerHTML = "Enter valid numbers";
+        console.error(e);
     }
 }
 
@@ -86,5 +94,22 @@ function saveHistory(area, unit, amount) {
 
 function clearAll() {
     document.querySelectorAll("input").forEach(i => i.value = "");
-    result.innerHTML = "";
+    showResult(0, 0)
+}
+
+function showResult(area, unit, price) {
+
+    document.getElementById("resultArea").textContent =
+        area + " " + unit;
+
+    document.getElementById("resultPrice").textContent =
+        "₹ " + price.toLocaleString("en-IN");
+
+    const card = document.getElementById("resultCard");
+
+    card.style.display = "block";
+
+    card.scrollIntoView({
+        behavior: "smooth"
+    });
 }

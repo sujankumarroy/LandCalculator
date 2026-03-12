@@ -63,11 +63,28 @@
     </section>
 
     <section class="card result-card" id="resultCard">
-        <h2>Result</h2>
-        <div id="result"></div>
-        <button id="hideResultCard">Hide</button>
-    </section>
+        <div class="result-header">
+            <h2>Result</h2>
+            <button id="hideResultCard">✕</button>
+        </div>
 
+        <div class="result-main">
+            <div class="result-item">
+                <span>Area</span>
+                <strong id="resultArea">0</strong>
+            </div>
+
+            <div class="result-item">
+                <span>Total Price</span>
+                <strong id="resultPrice">0</strong>
+            </div>
+        </div>
+
+        <div class="result-actions">
+            <!-- <button id="saveHistory">Save</button> -->
+            <button id="copyResult">Copy</button>
+        </div>
+    </section>
 </main>
 
 <script src="js/script.js"></script>

@@ -86,13 +86,53 @@ button:hover {
     opacity: 0.9;
 }
 
+#historyList div {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
 .result-card {
     display: none;
     background: linear-gradient(135deg,#6200ee,#7b1fa2);
     color: white;
 }
 
-#historyList div {
-    padding: 10px;
-    border-bottom: 1px solid #eee;
+.result-header {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.result-header button {
+    width:auto;
+    padding:4px 10px;
+    background:rgba(255,255,255,0.2);
+}
+
+.result-main {
+    margin-top:20px;
+    display:grid;
+    gap:14px;
+}
+
+.result-item {
+    display:flex;
+    justify-content:space-between;
+    font-size:18px;
+}
+
+.result-item strong {
+    font-size:22px;
+}
+
+.result-actions {
+    margin-top:18px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.result-actions button {
+    background:white;
+    color:#6200ee;
 }
