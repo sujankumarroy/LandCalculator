@@ -67,7 +67,7 @@ function calculate() {
             "Area: " + finalArea.toFixed(2) + " " + unit +
             "<br>Amount: ₹" + amount.toFixed(2);
 
-        saveHistory(finalArea, unit, amount);
+        if (finalArea) saveHistory(finalArea, unit, amount);
 
     } catch(e) {
         result.innerHTML = "Enter valid numbers";
