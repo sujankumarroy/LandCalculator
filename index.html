@@ -39,14 +39,13 @@
     <section class="card">
         <h2>Pricing</h2>
 
-        <input type="number" id="operator" placeholder="Multiplier">
-        <input type="number" id="price" placeholder="Rate">
+        <div class="grid">
+            <input type="number" id="operator" placeholder="Multiplier">
+            <select id="areaUnitForPrice"></select>
 
-        <label>Rate Unit</label>
-        <select id="areaUnitForPrice"></select>
-
-        <label>Output Area Unit</label>
-        <select id="areaUnit"></select>
+            <input type="number" id="price" placeholder="Rate">
+            <select id="areaUnit"></select>
+        </div>
 
         <button class="primary" onclick="calculate()">Calculate</button>
         <button class="secondary" onclick="clearAll()">Clear</button>
