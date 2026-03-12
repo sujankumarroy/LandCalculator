@@ -17,6 +17,18 @@ fillDropdown("breadthUnit2", lengthUnits);
 fillDropdown("areaUnit", areaUnits);
 fillDropdown("areaUnitForPrice", areaUnits);
 
+document.getElementById("detailsBtn").addEventListener("click", () => {
+
+    const box = document.getElementById("resultDetails");
+
+    if (box.style.display === "none") {
+        box.style.display = "block";
+    } else {
+        box.style.display = "none";
+    }
+
+});
+
 document.getElementById("copyResult").addEventListener("click", () => {
     const area = document.getElementById("resultArea").textContent;
     const price = document.getElementById("resultPrice").textContent;
@@ -73,6 +85,15 @@ function calculate() {
         if(unit === "Bigha") finalArea = area / 1600;
 
         let amount = op * area * priceVal;
+
+        document.getElementById("detailDimensions").textContent =
+        "Lengths: " + l1 + ", " + l2 + " | Breadths: " + b1 + ", " + b2;
+
+        document.getElementById("detailArea").textContent =
+        "Calculated Area: " + finalArea;
+
+        document.getElementById("detailPrice").textContent =
+        "Total Price: ₹ " + amount.toLocaleString("en-IN");
 
         showResult(finalArea, unit, amount);
         if (finalArea) saveHistory(finalArea, unit, amount);
