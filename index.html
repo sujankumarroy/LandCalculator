@@ -47,21 +47,19 @@
             <select id="areaUnit"></select>
         </div>
 
+        <br><br>
         <button class="primary" onclick="calculate()">Calculate</button>
-        <button class="secondary" onclick="clearAll()">Clear</button>
+
+        <div class="grid">
+            <button class="secondary" onclick="showHistory()">View History</button>
+            <button class="danger" onclick="clearAll()">Clear</button>
+        </div>
     </section>
 
     <section class="card result-card" id="resultCard">
         <h2>Result</h2>
         <div id="result"></div>
-    </section>
-
-    <section class="card">
-        <h2>History</h2>
-        <button class="secondary" onclick="showHistory()">View History</button>
-        <button class="danger" onclick="clearHistory()">Clear History</button>
-        <button class="primary" onclick="exportHistory()">Export History</button>
-        <div id="historyList"></div>
+        <button id="hideResultCard">Hide</button>
     </section>
 
 </main>

@@ -17,6 +17,10 @@ fillDropdown("breadthUnit2", lengthUnits);
 fillDropdown("areaUnit", areaUnits);
 fillDropdown("areaUnitForPrice", areaUnits);
 
+document.getElementById("hideResultCard").addEventListener("click", () => {
+    document.getElementById("resultCard").style.display = "none";
+});
+
 function convertToMeter(value, unit) {
     switch(unit) {
         case "Meter": return value;
@@ -31,6 +35,8 @@ function convertToMeter(value, unit) {
 
 function calculate() {
     try {
+        document.getElementById("resultCard").style.display = "block";
+
         let l1 = parseFloat(length1.value);
         let l2 = parseFloat(length2.value);
         let b1 = parseFloat(breadth1.value);
