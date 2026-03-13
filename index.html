@@ -11,88 +11,108 @@
     <link rel="stylesheet" href="css/nav.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-<header class="topbar">
-    <div class="container topbar-inner">
-        <h1 class="brand">Land Calculator</h1>
-        <nav class="nav">
-            <a href="index.html" class="nav-link active">Calculator</a>
-            <a href="history.html" class="nav-link">History</a>
-        </nav>
-    </div>
-</header>
-
-<main class="container">
-
-    <section class="card">
-        <h2>Dimensions</h2>
-
-        <div class="grid">
-            <input type="number" id="length1" placeholder="Length 1">
-            <select id="lengthUnit1"></select>
-
-            <input type="number" id="length2" placeholder="Length 2">
-            <select id="lengthUnit2"></select>
-
-            <input type="number" id="breadth1" placeholder="Breadth 1">
-            <select id="breadthUnit1"></select>
-
-            <input type="number" id="breadth2" placeholder="Breadth 2">
-            <select id="breadthUnit2"></select>
+    <body>
+    <header class="topbar">
+        <div class="container topbar-inner">
+            <h1 class="brand">Land Calculator</h1>
+            <nav class="nav">
+                <a href="index.html" class="nav-link active">Calculator</a>
+                <a href="history.html" class="nav-link">History</a>
+            </nav>
         </div>
-    </section>
+    </header>
 
-    <section class="card">
-        <h2>Pricing</h2>
+    <main class="container">
 
-        <div class="grid">
-            <input type="number" id="operator" placeholder="Multiplier">
-            <select id="areaUnitForPrice"></select>
+        <section class="card">
+            <h2>Dimensions</h2>
 
-            <input type="number" id="price" placeholder="Rate">
+            <div class="grid">
+                <input type="number" id="length1" placeholder="Length 1">
+                <select id="lengthUnit1"></select>
+
+                <input type="number" id="length2" placeholder="Length 2">
+                <select id="lengthUnit2"></select>
+
+                <input type="number" id="breadth1" placeholder="Breadth 1">
+                <select id="breadthUnit1"></select>
+
+                <input type="number" id="breadth2" placeholder="Breadth 2">
+                <select id="breadthUnit2"></select>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Pricing</h2>
+
+            <div class="grid">
+                <input type="number" id="operator" placeholder="Operator">
+                <select id="operatorUnit"></select>
+
+                <input type="number" id="ratePerUnitArea" placeholder="Rate">
+                <select id="rateUnit"></select>
+            </div>
+
+            <br><br>
             <select id="areaUnit"></select>
-        </div>
+            <button class="primary" onclick="calculate()">Calculate</button>
 
-        <br><br>
-        <button class="primary" onclick="calculate()">Calculate</button>
+            <div class="grid">
+                <button id="viewHistory" class="secondary">View History</button>
+                <button class="danger" onclick="clearAll()">Clear</button>
+            </div>
+        </section>
 
-        <div class="grid">
-            <button id="viewHistory" class="secondary">View History</button>
-            <button class="danger" onclick="clearAll()">Clear</button>
-        </div>
-    </section>
-
-    <section class="card result-card" id="resultCard">
-        <div class="result-header">
-            <h2>Result</h2>
-            <button id="hideResultCard">✕</button>
-        </div>
-
-        <div class="result-main">
-            <div class="result-item">
-                <span>Area</span>
-                <strong id="resultArea">0</strong>
+        <section class="card result-card" id="resultCard">
+            <div class="result-header">
+                <h2>Result</h2>
+                <button id="hideResultCard">✕</button>
             </div>
 
-            <div class="result-item">
-                <span>Total Price</span>
-                <strong id="resultPrice">0</strong>
+            <div class="result-main">
+                <div class="result-item result-minor">
+                    <span>Length</span>
+                    <strong id="resultLength">0 Meter</strong>
+                </div>
+
+                <div class="result-item result-minor">
+                    <span>Breadth</span>
+                    <strong id="resultBreadth">0 Meter</strong>
+                </div>
+
+                <div class="result-item">
+                    <span>Area</span>
+                    <strong id="resultArea">0 Square Meter</strong>
+                </div>
+
+                <div class="result-item result-minor">
+                    <span>Operator</span>
+                    <strong id="resultOperator">0</strong>
+                </div>
+
+                <div class="result-item result-minor">
+                    <span>Total Area</span>
+                    <strong id="resultTotalArea">0 Square Meter</strong>
+                </div>
+
+                <div class="result-item result-minor">
+                    <span>Rate</span>
+                    <strong id="resultRate">0 Rs. Per Meter Square</strong>
+                </div>
+
+                <div class="result-item">
+                    <span>Total Price</span>
+                    <strong id="resultPrice">₹0</strong>
+                </div>
             </div>
-        </div>
 
-        <div id="resultDetails" class="result-details" style="display:none;">
-            <p id="detailDimensions"></p>
-            <p id="detailArea"></p>
-            <p id="detailPrice"></p>
-        </div>
+            <div class="result-actions">
+                <button id="detailsBtn">More Details</button>
+                <button id="copyResult">Copy</button>
+            </div>
+        </section>
+    </main>
 
-        <div class="result-actions">
-            <button id="detailsBtn">More Details</button>
-            <button id="copyResult">Copy</button>
-        </div>
-    </section>
-</main>
-
-<script src="js/script.js"></script>
-</body>
+    <script src="js/script.js"></script>
+    </body>
 </html>

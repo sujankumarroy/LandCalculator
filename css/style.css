@@ -57,7 +57,7 @@ input, select {
     font-size: 14px;
 }
 
-button {
+button, #areaUnit {
     width: 100%;
     padding: 12px;
     margin-top: 10px;
@@ -143,4 +143,8 @@ button:hover {
     border-radius:8px;
     background:rgba(255,255,255,0.15);
     font-size:14px;
+}
+
+.result-minor {
+    display: none;
 }
