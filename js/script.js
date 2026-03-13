@@ -1,7 +1,7 @@
 const lengthUnits = ["Meter", "Centimeter", "Foot", "Inch", "Nol", "Haat"];
 const areaUnits = ["Square Meter", "Square Centimeter", "Square Foot", "Square Inch", "Hectare", "Acre", "Bigha", "Kear", "Josti", "Raak", "Fon", "Kata"];
 const rateUnits = ["Per Square Meter", "Per Square Centimeter", "Per Square Foot", "Per Square Inch", "Per Hectare", "Per Acre", "Per Bigha", "Kear", "Per Josti", "Per Raak", "Per Fon", "Per Kata"];
-const operatorUnits = ["Multiply", "Divide", "Add", "Subtract"];
+const operatorUnits = ["Multiply"];
 
 function fillDropdown(id, arr) {
     const select = document.getElementById(id);
@@ -79,18 +79,18 @@ function calculate() {
         let bu2 = breadthUnit2.value;
 
         let op = parseFloat(operator.value) || 0;
-        let priceVal = parseFloat(price.value) || 0;
+        let rate = parseFloat(price.value) || 0;
 
-        let unit = areaUnit.value;
+        let ru = rateUnit.value;
+        let au = areaUnit.value;
 
         let length = convertToMeter(l1, lu1) + convertToMeter(l2, lu2);
         let breadth = convertToMeter(b1, bu1) + convertToMeter(b2, bu2);
 
         let areaSm = length * breadth;
 
-        let finalArea = areaConverter(areaSm, unit);
-
-        let amount = op * areaSm * priceVal;
+        let finalArea = areaConverter(areaSm, au);
+        let amount = areaConverter(areaSm, ru) * op * rate;
 
         document.getElementById("detailDimensions").textContent =
         "Lengths: " + l1 + ", " + l2 + " | Breadths: " + b1 + ", " + b2;
@@ -101,8 +101,8 @@ function calculate() {
         document.getElementById("detailPrice").textContent =
         "Total Price: ₹ " + amount.toLocaleString("en-IN");
 
-        showResult(finalArea, unit, amount);
-        if (finalArea) saveHistory(finalArea, unit, amount);
+        showResult(finalArea, au, amount);
+        if (finalArea) saveHistory(finalArea, au, amount);
 
     } catch(e) {
         console.error(e);
