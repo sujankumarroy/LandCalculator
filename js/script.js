@@ -88,18 +88,18 @@ function calculate() {
         let ru = rateUnit.value;
         let au = areaUnit.value;
 
-        let length = convertToMeter(l1, lu1) + convertToMeter(l2, lu2);
-        let breadth = convertToMeter(b1, bu1) + convertToMeter(b2, bu2);
+        let lengthM = convertToMeter(l1, lu1) + convertToMeter(l2, lu2);
+        let breadthM = convertToMeter(b1, bu1) + convertToMeter(b2, bu2);
 
-        let areaSm = length * breadth;
+        let areaSm = lengthM * breadthM;
+        let area = areaConverter(areaSm, au);
+        let totalArea = area * op;
+        let price = areaConverter(totalArea, ru.replace("Rs. Per ", "")) * rate;
 
-        let finalArea = areaConverter(areaSm, au);
-        let price = areaConverter(areaSm, ru.replace("Rs. Per ", "")) * op * rate;
-
-        const result = { l1, l2, b1, b2, lu1, lu2, bu1, bu2, op, rate, ru, au, length, breadth, areaSm, finalArea, price };
+        const result = { l1, l2, b1, b2, lu1, lu2, bu1, bu2, op, rate, ru, au, lengthM, breadthM, areaSm, area, totalArea, price };
 
         showResult(result);
-        if (finalArea) saveHistory(result);
+        if (area) saveHistory(result);
     } catch(e) {
         console.error(e);
     }
@@ -122,9 +122,9 @@ function clearAll() {
 function showResult(r) {
     document.getElementById("resultLength").textContent = (r.lu1 == r.lu2) ? `${r.l1 + r.l2} ${r.lu1}` : `${r.l1} ${r.lu1}, ${r.l2} ${r.lu2}`;
     document.getElementById("resultBreadth").textContent = (r.bu1 == r.bu2) ? `${r.b1 + r.b2} ${r.bu1}` : `${r.b1} ${r.bu1}, ${r.b2} ${r.bu2}`;
-    document.getElementById("resultArea").textContent = `${r.finalArea} ${r.au}`;
+    document.getElementById("resultArea").textContent = `${r.area} ${r.au}`;
     document.getElementById("resultOperator").textContent = `${r.op}`;
-    document.getElementById("resultTotalArea").textContent = `${r.finalArea * r.op} ${r.au}`;
+    document.getElementById("resultTotalArea").textContent = `${r.totalArea} ${r.au}`;
     document.getElementById("resultRate").textContent = `${r.rate} ${r.ru}`;
     document.getElementById("resultPrice").textContent = `₹ ${r.price.toLocaleString("en-IN")}`;
 

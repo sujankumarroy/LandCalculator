@@ -9,9 +9,9 @@ function showHistory() {
                 <strong>${h.date}</strong><br>
                 Length: ${(h.lu1 == h.lu2) ? `${h.l1 + h.l2} ${h.lu1}` : `${h.l1} ${h.lu1}, ${h.l2} ${h.lu2}`}<br>
                 Breadth: ${(h.bu1 == h.bu2) ? `${h.b1 + h.b2} ${h.bu1}` : `${h.b1} ${h.bu1}, ${h.b2} ${h.bu2}`}<br>
-                Area: ${h.areaSm} ${h.au}<br>
-                Operatoe: ${h.op}<br>
-                Total Area: ${h.finalArea} ${h.au}<br>
+                Area: ${h.area} ${h.au}<br>
+                Operator: ${h.op}<br>
+                Total Area: ${h.totalArea} ${h.au}<br>
                 Rate: ${h.rate} ${h.ru}<br>
                 Price: ${h.price}<br><br>
             </div>
@@ -33,9 +33,9 @@ function exportHistory() {
         content += `Date: ${h.date}\n`;
         content += `Length: ${(h.lu1 == h.lu2) ? `${h.l1 + h.l2} ${h.lu1}` : `${h.l1} ${h.lu1}, ${h.l2} ${h.lu2}`}\n`;
         content += `Breadth: ${(h.bu1 == h.bu2) ? `${h.b1 + h.b2} ${h.bu1}` : `${h.b1} ${h.bu1}, ${h.b2} ${h.bu2}`}\n`;
-        content += `Area: ${h.areaSm} ${h.au}\n`;
-        content += `Operatoe: ${h.op}\n`;
-        content += `Total Area: ${h.finalArea} ${h.au}\n`;
+        content += `Area: ${h.area} ${h.au}\n`;
+        content += `Operator: ${h.op}\n`;
+        content += `Total Area: ${h.totalArea} ${h.au}\n`;
         content += `Rate: ${h.rate} ${h.ru}\n`;
         content += `Price: ${h.price}\n`;
         content += "--------------------------------------\n";
