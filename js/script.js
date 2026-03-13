@@ -68,19 +68,25 @@ function calculate() {
         let l2 = parseFloat(length2.value) || 0;
         let b1 = parseFloat(breadth1.value) || 0;
         let b2 = parseFloat(breadth2.value) || 0;
+
+        let lu1 = lengthUnit1.value;
+        let lu2 = lengthUnit2.value;
+        let bu1 = breadthUnit1.value;
+        let bu2 = breadthUnit2.value;
+
         let op = parseFloat(operator.value) || 0;
         let priceVal = parseFloat(price.value) || 0;
 
-        let length = convertToMeter(l1, lengthUnit1.value) + convertToMeter(l2, lengthUnit2.value);
-        let breadth = convertToMeter(b1, breadthUnit1.value) + convertToMeter(b2, breadthUnit2.value);
-
-        let areaSq = length * breadth;
-
         let unit = areaUnit.value;
 
-        let finalArea = areaConverter(areaSq, unit);
+        let length = convertToMeter(l1, lu1) + convertToMeter(l2, lu2);
+        let breadth = convertToMeter(b1, bu1) + convertToMeter(b2, bu2);
 
-        let amount = op * area * priceVal;
+        let areaSm = length * breadth;
+
+        let finalArea = areaConverter(areaSm, unit);
+
+        let amount = op * areaSm * priceVal;
 
         document.getElementById("detailDimensions").textContent =
         "Lengths: " + l1 + ", " + l2 + " | Breadths: " + b1 + ", " + b2;
@@ -131,19 +137,19 @@ function showResult(area, unit, price) {
     });
 }
 
-function areaConverter(areaSq, unit) {
+function areaConverter(areaSm, unit) {
     switch (unit) {
-        case "Square Meter": return areaSq;
-        case "Square Centimeter": return areaSq * 10000;
-        case "Square Foot": return areaSq * 10.7639;
-        case "Square Inch": return areaSq * 1550.0031;
-        case "Hectare": return areaSq / 10000;
-        case "Acre": return areaSq / 4046.86;
-        case "Bigha": return areaSq / 1600;
-        case "Kear": return areaSq / (0.4572 * 0.4572 * 8 * 8 * 4 * 28);
-        case "Josti": return areaSq / (0.4572 * 0.4572 * 8 * 8 * 4);
-        case "Raak": return areaSq / (0.4572 * 0.4572 * 8 * 8);
-        case "Fon": return areaSq / (0.4572 * 0.4572);
+        case "Square Meter": return areaSm;
+        case "Square Centimeter": return areaSm * 10000;
+        case "Square Foot": return areaSm * 10.7639;
+        case "Square Inch": return areaSm * 1550.0031;
+        case "Hectare": return areaSm / 10000;
+        case "Acre": return areaSm / 4046.86;
+        case "Bigha": return areaSm / 1600;
+        case "Kear": return areaSm / (0.4572 * 0.4572 * 8 * 8 * 4 * 28);
+        case "Josti": return areaSm / (0.4572 * 0.4572 * 8 * 8 * 4);
+        case "Raak": return areaSm / (0.4572 * 0.4572 * 8 * 8);
+        case "Fon": return areaSm / (0.4572 * 0.4572);
         default: console.error("unit doesn't mathced")
     }
 }
