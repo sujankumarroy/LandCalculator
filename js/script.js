@@ -1,6 +1,6 @@
 const lengthUnits = ["Meter", "Centimeter", "Foot", "Inch", "Nol", "Haat"];
 const areaUnits = ["Square Meter", "Square Centimeter", "Square Foot", "Square Inch", "Hectare", "Acre", "Bigha", "Kear", "Josti", "Raak", "Fon", "Kata"];
-const rateUnits = ["Per Square Meter", "Per Square Centimeter", "Per Square Foot", "Per Square Inch", "Per Hectare", "Per Acre", "Per Bigha", "Kear", "Per Josti", "Per Raak", "Per Fon", "Per Kata"];
+const rateUnits = ["Rs. Per Square Meter", "Rs. Per Square Centimeter", "Rs. Per Square Foot", "Rs. Per Square Inch", "Rs. Per Hectare", "Rs. Per Acre", "Rs. Per Bigha", "Rs. Per Kear", "Rs. Per Josti", "Rs. Per Raak", "Rs. Per Fon", "Rs. Per Kata"];
 const operatorUnits = ["Multiply"];
 
 function fillDropdown(id, arr) {
@@ -79,7 +79,7 @@ function calculate() {
         let bu2 = breadthUnit2.value;
 
         let op = parseFloat(operator.value) || 0;
-        let rate = parseFloat(price.value) || 0;
+        let rate = parseFloat(ratePerArea.value) || 0;
 
         let ru = rateUnit.value;
         let au = areaUnit.value;
@@ -90,7 +90,7 @@ function calculate() {
         let areaSm = length * breadth;
 
         let finalArea = areaConverter(areaSm, au);
-        let amount = areaConverter(areaSm, ru) * op * rate;
+        let amount = areaConverter(areaSm, ru.replace("Rs. Per ", "")) * op * rate;
 
         document.getElementById("detailDimensions").textContent =
         "Lengths: " + l1 + ", " + l2 + " | Breadths: " + b1 + ", " + b2;
