@@ -7,8 +7,8 @@ function showHistory() {
         historyList.innerHTML += `
             <div>
                 <strong>${h.date}</strong><br>
-                Area: ${h.area}<br>
-                Amount: ${h.amount}<br><br>
+                Area: ${h.areaSm}<br>
+                Price: ${h.price}<br><br>
             </div>
         `;
     });
@@ -26,8 +26,8 @@ function exportHistory() {
 
     history.forEach(h => {
         content += `Date: ${h.date}\n`;
-        content += `Area: ${h.area}\n`;
-        content += `Amount: ${h.amount}\n`;
+        content += `Area: ${h.areaSm}\n`;
+        content += `Price: ${h.price}\n`;
         content += "--------------------------\n";
     });
 

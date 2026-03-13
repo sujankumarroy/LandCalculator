@@ -144,3 +144,7 @@ button:hover {
     background:rgba(255,255,255,0.15);
     font-size:14px;
 }
+
+.result-minor {
+    display: none;
+}

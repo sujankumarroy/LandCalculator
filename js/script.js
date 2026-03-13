@@ -3,6 +3,8 @@ const areaUnits = ["Square Meter", "Square Centimeter", "Square Foot", "Square I
 const rateUnits = ["Rs. Per Square Meter", "Rs. Per Square Centimeter", "Rs. Per Square Foot", "Rs. Per Square Inch", "Rs. Per Hectare", "Rs. Per Acre", "Rs. Per Bigha", "Rs. Per Kear", "Rs. Per Josti", "Rs. Per Raak", "Rs. Per Fon", "Rs. Per Kata"];
 const operatorUnits = ["Multiply"];
 
+const detailsBtn = document.getElementById("detailsBtn");
+
 function fillDropdown(id, arr) {
     const select = document.getElementById(id);
     arr.forEach(v => {
@@ -21,16 +23,18 @@ fillDropdown("operatorUnit", operatorUnits);
 fillDropdown("rateUnit", rateUnits);
 fillDropdown("areaUnit", areaUnits);
 
-document.getElementById("detailsBtn").addEventListener("click", () => {
-
-    const box = document.getElementById("resultDetails");
-
-    if (box.style.display === "none") {
-        box.style.display = "block";
+detailsBtn.addEventListener("click", () => {
+    if (detailsBtn.textContent == "More Details") {
+        document.querySelectorAll(".result-minor").forEach(v => {
+            v.style.display = "flex";
+            detailsBtn.textContent = "Less Details";
+        });
     } else {
-        box.style.display = "none";
+        document.querySelectorAll(".result-minor").forEach(v => {
+            v.style.display = "none";
+            detailsBtn.textContent = "More Details";
+        });
     }
-
 });
 
 document.getElementById("copyResult").addEventListener("click", () => {
@@ -79,7 +83,7 @@ function calculate() {
         let bu2 = breadthUnit2.value;
 
         let op = parseFloat(operator.value) || 0;
-        let rate = parseFloat(ratePerArea.value) || 0;
+        let rate = parseFloat(ratePerUnitArea.value) || 0;
 
         let ru = rateUnit.value;
         let au = areaUnit.value;
@@ -90,37 +94,37 @@ function calculate() {
         let areaSm = length * breadth;
 
         let finalArea = areaConverter(areaSm, au);
-        let amount = areaConverter(areaSm, ru.replace("Rs. Per ", "")) * op * rate;
+        let price = areaConverter(areaSm, ru.replace("Rs. Per ", "")) * op * rate;
 
-        document.getElementById("detailDimensions").textContent = "Lengths: " + l1 + ", " + l2 + " | Breadths: " + b1 + ", " + b2;
-        document.getElementById("detailArea").textContent = "Calculated Area: " + finalArea;
-        document.getElementById("detailPrice").textContent = "Total Price: ₹ " + amount.toLocaleString("en-IN");
+        const result = { l1, l2, b1, b2, lu1, lu2, bu1, bu2, op, rate, ru, au, length, breadth, areaSm, finalArea, price };
 
-        showResult(finalArea, au, amount);
-        if (finalArea) saveHistory(finalArea, au, amount);
+        showResult(result);
+        if (finalArea) saveHistory(result);
     } catch(e) {
         console.error(e);
     }
 }
 
-function saveHistory(area, unit, amount) {
+function saveHistory(result) {
     let history = JSON.parse(localStorage.getItem("history")) || [];
     history.push({
         date: new Date().toLocaleString(),
-        area: area + " " + unit,
-        amount: "₹" + amount.toFixed(2)
+        ...result
     });
     localStorage.setItem("history", JSON.stringify(history));
 }
 
 function clearAll() {
     document.querySelectorAll("input").forEach(i => i.value = "");
-    showResult(0, 0)
+    // showResult(0, 0, 0);
 }
 
-function showResult(area, unit, price) {
-    document.getElementById("resultArea").textContent = area + " " + unit;
-    document.getElementById("resultPrice").textContent = "₹ " + price.toLocaleString("en-IN");
+function showResult(r) {
+    document.getElementById("resultArea").textContent = r.finalArea + " " + r.au;
+    document.getElementById("resultOperator").textContent = r.op;
+    document.getElementById("resultTotalArea").textContent = r.finalArea * r.op + " " + r.au;
+    document.getElementById("resultRate").textContent = r.rate + " " + r.ru;
+    document.getElementById("resultPrice").textContent = "₹ " + r.price.toLocaleString("en-IN");
 
     const card = document.getElementById("resultCard");
 

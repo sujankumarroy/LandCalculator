@@ -49,7 +49,7 @@
                 <input type="number" id="operator" placeholder="Operator">
                 <select id="operatorUnit"></select>
 
-                <input type="number" id="ratePerArea" placeholder="Rate">
+                <input type="number" id="ratePerUnitArea" placeholder="Rate">
                 <select id="rateUnit"></select>
             </div>
 
@@ -72,19 +72,28 @@
             <div class="result-main">
                 <div class="result-item">
                     <span>Area</span>
-                    <strong id="resultArea">0</strong>
+                    <strong id="resultArea">0 Square Meter</strong>
+                </div>
+
+                <div class="result-item result-minor">
+                    <span>Operator</span>
+                    <strong id="resultOperator">0</strong>
+                </div>
+
+                <div class="result-item result-minor">
+                    <span>Total Area</span>
+                    <strong id="resultTotalArea">0 Square Meter</strong>
+                </div>
+
+                <div class="result-item result-minor">
+                    <span>Rate</span>
+                    <strong id="resultRate">0 Rs. Per Meter Square</strong>
                 </div>
 
                 <div class="result-item">
                     <span>Total Price</span>
-                    <strong id="resultPrice">0</strong>
+                    <strong id="resultPrice">₹0</strong>
                 </div>
-            </div>
-
-            <div id="resultDetails" class="result-details" style="display:none;">
-                <p id="detailDimensions"></p>
-                <p id="detailArea"></p>
-                <p id="detailPrice"></p>
             </div>
 
             <div class="result-actions">
