@@ -116,10 +116,12 @@ function saveHistory(result) {
 
 function clearAll() {
     document.querySelectorAll("input").forEach(i => i.value = "");
-    // showResult(0, 0, 0);
+    document.getElementById("resultCard").style.display = "none";
 }
 
 function showResult(r) {
+    document.getElementById("resultLength").textContent = (r.lu1 == r.lu2) ? `${r.l1 + r.l2} ${r.lu1}` : `${r.l1} ${r.lu1}, ${r.l2} ${r.lu2}`;
+    document.getElementById("resultBreadth").textContent = (r.bu1 == r.bu2) ? `${r.b1 + r.b2} ${r.bu1}` : `${r.b1} ${r.bu1}, ${r.b2} ${r.bu2}`;
     document.getElementById("resultArea").textContent = r.finalArea + " " + r.au;
     document.getElementById("resultOperator").textContent = r.op;
     document.getElementById("resultTotalArea").textContent = r.finalArea * r.op + " " + r.au;
