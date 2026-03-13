@@ -1,5 +1,5 @@
 const lengthUnits = ["Meter","Centimeter","Foot","Inch","Nol","Haat"];
-const areaUnits = ["Square Meter","Square Centimeter","Square Foot","Square Inch","Hectare","Acre","Bigha"];
+const areaUnits = ["Square Meter","Square Centimeter","Square Foot","Square Inch","Hectare","Acre","Bigha", "Kear", "Josti", "Raak", "Fon", "Kata"];
 
 function fillDropdown(id, arr) {
     const select = document.getElementById(id);
@@ -74,15 +74,11 @@ function calculate() {
         let length = convertToMeter(l1, lengthUnit1.value) + convertToMeter(l2, lengthUnit2.value);
         let breadth = convertToMeter(b1, breadthUnit1.value) + convertToMeter(b2, breadthUnit2.value);
 
-        let area = length * breadth;
+        let areaSq = length * breadth;
 
-        let finalArea = area;
         let unit = areaUnit.value;
 
-        if(unit === "Square Foot") finalArea = area * 10.7639;
-        if(unit === "Square Centimeter") finalArea = area * 10000;
-        if(unit === "Acre") finalArea = area / 4046.86;
-        if(unit === "Bigha") finalArea = area / 1600;
+        let finalArea = areaConverter(areaSq, unit);
 
         let amount = op * area * priceVal;
 
@@ -133,4 +129,21 @@ function showResult(area, unit, price) {
     card.scrollIntoView({
         behavior: "smooth"
     });
+}
+
+function areaConverter(areaSq, unit) {
+    switch (unit) {
+        case "Square Meter": return areaSq;
+        case "Square Centimeter": return areaSq * 10000;
+        case "Square Foot": return areaSq * 10.7639;
+        case "Square Inch": return areaSq * 1550.0031;
+        case "Hectare": return areaSq / 10000;
+        case "Acre": return areaSq / 4046.86;
+        case "Bigha": return areaSq / 1600;
+        case "Kear": return areaSq / (0.4572 * 0.4572 * 8 * 8 * 4 * 28);
+        case "Josti": return areaSq / (0.4572 * 0.4572 * 8 * 8 * 4);
+        case "Raak": return areaSq / (0.4572 * 0.4572 * 8 * 8);
+        case "Fon": return areaSq / (0.4572 * 0.4572);
+        default: console.error("unit doesn't mathced")
+    }
 }
