@@ -125,9 +125,3 @@ body {
     color:#777;
     font-size:13px;
 }
-
-/* Responsive */
-@media(max-width:800px){
-    .grid-2{flex-direction:column}
-    .nav{display:none}
-}
