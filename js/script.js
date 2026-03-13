@@ -1,5 +1,7 @@
-const lengthUnits = ["Meter","Centimeter","Foot","Inch","Nol","Haat"];
-const areaUnits = ["Square Meter","Square Centimeter","Square Foot","Square Inch","Hectare","Acre","Bigha", "Kear", "Josti", "Raak", "Fon", "Kata"];
+const lengthUnits = ["Meter", "Centimeter", "Foot", "Inch", "Nol", "Haat"];
+const areaUnits = ["Square Meter", "Square Centimeter", "Square Foot", "Square Inch", "Hectare", "Acre", "Bigha", "Kear", "Josti", "Raak", "Fon", "Kata"];
+const rateUnits = ["Per Square Meter", "Per Square Centimeter", "Per Square Foot", "Per Square Inch", "Per Hectare", "Per Acre", "Per Bigha", "Kear", "Per Josti", "Per Raak", "Per Fon", "Per Kata"];
+const operatorUnits = ["Multiply", "Divide", "Add", "Subtract"];
 
 function fillDropdown(id, arr) {
     const select = document.getElementById(id);
@@ -14,8 +16,10 @@ fillDropdown("lengthUnit1", lengthUnits);
 fillDropdown("lengthUnit2", lengthUnits);
 fillDropdown("breadthUnit1", lengthUnits);
 fillDropdown("breadthUnit2", lengthUnits);
+
+fillDropdown("operatorUnit", operatorUnits);
+fillDropdown("rateUnit", rateUnits);
 fillDropdown("areaUnit", areaUnits);
-fillDropdown("areaUnitForPrice", areaUnits);
 
 document.getElementById("detailsBtn").addEventListener("click", () => {
 

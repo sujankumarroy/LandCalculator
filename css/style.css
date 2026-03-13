@@ -57,7 +57,7 @@ input, select {
     font-size: 14px;
 }
 
-button {
+button, #areaUnit {
     width: 100%;
     padding: 12px;
     margin-top: 10px;
