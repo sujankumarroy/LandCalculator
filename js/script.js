@@ -4,6 +4,39 @@ const rateUnits = ["Rs. Per Square Meter", "Rs. Per Square Centimeter", "Rs. Per
 const operatorUnits = ["Multiply"];
 
 const detailsBtn = document.getElementById("detailsBtn");
+const installBtn = document.getElementById('installBtn');
+
+let deferredPrompt;
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js');
+}
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    alert()
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.style.display = 'block';
+
+    installBtn.addEventListener('click', () => {
+        installBtn.style.display = 'none';
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the A2HS prompt');
+            } else {
+                console.log('User dismissed the A2HS prompt');
+            }
+            deferredPrompt = null;
+        });
+    });
+});
+
+window.addEventListener('appinstalled', () => {
+    installBtn.style.display = 'none';
+    deferredPrompt = null;
+    console.log('PWA was installed');
+});
 
 function fillDropdown(id, arr) {
     const select = document.getElementById(id);

@@ -153,3 +153,11 @@ button:hover {
         box-sizing: border-box;
     }
 }
+
+#installBtn {
+    display: none;
+    width: auto;
+    margin: 0 10px;
+    padding: 5px 15px;
+    background: var(--accent3);
+}
