@@ -5,15 +5,15 @@ const STATIC_ASSETS = [
     "/index",
     "/history",
     "/offline",
-    "/style.css",
-    "/history.css",
-    "/script.js",
-    "/history.js"
+    "css/style.css",
+    "css/history.css",
+    "js/script.js",
+    "js/history.js"
 ];
 
 self.addEventListener("install", e => {
     e.waitUntil(
-        caches.open("CACHE_NAME").then(cache => {
+        caches.open(CACHE_NAME).then(cache => {
             return cache.addAll(STATIC_ASSETS);
         })
     );

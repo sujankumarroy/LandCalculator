@@ -13,22 +13,18 @@ if ('serviceWorker' in navigator) {
 }
 
 window.addEventListener('beforeinstallprompt', (e) => {
-    alert()
     e.preventDefault();
     deferredPrompt = e;
     installBtn.style.display = 'block';
 
-    installBtn.addEventListener('click', () => {
-        installBtn.style.display = 'none';
+    installBtn.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+    
         deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-                console.log('User accepted the A2HS prompt');
-            } else {
-                console.log('User dismissed the A2HS prompt');
-            }
-            deferredPrompt = null;
-        });
+        const choice = await deferredPrompt.userChoice;
+    
+        deferredPrompt = null;
+        installBtn.style.display = "none";
     });
 });
 
@@ -115,7 +111,7 @@ function calculate() {
         let bu1 = breadthUnit1.value;
         let bu2 = breadthUnit2.value;
 
-        let op = parseFloat(operator.value) || 0;
+        let op = parseFloat(operator.value) || 1;
         let rate = parseFloat(ratePerUnitArea.value) || 0;
 
         let ru = rateUnit.value;
@@ -164,7 +160,7 @@ function showResult(r) {
     const card = document.getElementById("resultCard");
 
     card.style.display = "block";
-    card.scrollIntoView({ behavior: "smooth" });
+    card.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
 function areaConverter(areaSm, unit) {
@@ -180,6 +176,6 @@ function areaConverter(areaSm, unit) {
         case "Josti": return areaSm / (0.4572 * 0.4572 * 8 * 8 * 4);
         case "Raak": return areaSm / (0.4572 * 0.4572 * 8 * 8);
         case "Fon": return areaSm / (0.4572 * 0.4572);
-        default: console.error("unit doesn't mathced");
+        default: return areaSm;
     }
 }
