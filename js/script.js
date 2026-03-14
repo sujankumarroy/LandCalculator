@@ -56,6 +56,7 @@ class Calculator {
         this.fillDropdown("rateUnit", this.rateUnits);
         this.fillDropdown("areaUnit", this.areaUnits);
 
+        this.setPrevValues();
         this.initEvents();
     }
 
@@ -98,6 +99,29 @@ class Calculator {
             option.text = v;
             select.add(option);
         });
+    }
+
+    setPrevValues() {
+        let history = JSON.parse(localStorage.getItem("history")) || [];
+        if (history.length === 0) return;
+
+        const lastHistory = history[history.length - 1];
+
+        document.getElementById("lengthUnit1").value = lastHistory.lu1;
+        document.getElementById("lengthUnit2").value = lastHistory.lu2;
+        document.getElementById("breadthUnit1").value = lastHistory.bu1;
+        document.getElementById("breadthUnit2").value = lastHistory.bu2;
+
+        document.getElementById("rateUnit").value = lastHistory.ru;
+        document.getElementById("areaUnit").value = lastHistory.au;
+
+        document.getElementById("length1").value = lastHistory.l1;
+        document.getElementById("length2").value = lastHistory.l2;
+        document.getElementById("breadth1").value = lastHistory.b1;
+        document.getElementById("breadth2").value = lastHistory.b2;
+
+        document.getElementById("operator").value = lastHistory.op;
+        document.getElementById("ratePerUnitArea").value = lastHistory.rate;
     }
 
     convertToMeter(value, unit) {
