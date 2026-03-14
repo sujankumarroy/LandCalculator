@@ -161,3 +161,20 @@ button:hover {
     padding: 5px 15px;
     background: var(--accent3);
 }
+
+/* Toast */
+.toast {
+    position:fixed;
+    bottom:40px;
+    left:50%;
+    transform:translateX(-50%) scale(0.9);
+    background:linear-gradient(90deg,var(--accent2),var(--accent1));
+    color:#fff;
+    padding:10px 18px;
+    border-radius:999px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.3);
+    opacity:0;
+    transition:all .3s;
+}
+
+.toast.show { opacity:1; transform:translateX(-50%) scale(1); }
