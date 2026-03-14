@@ -5,6 +5,7 @@ const STATIC_ASSETS = [
     "/index",
     "/history",
     "/offline",
+    "css/nav.css"
     "css/style.css",
     "css/history.css",
     "js/script.js",
