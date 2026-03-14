@@ -116,6 +116,22 @@ class Calculator {
         try {
             document.getElementById("resultCard").style.display = "block";
 
+            const length1 = document.getElementById("length1");
+            const length2 = document.getElementById("length2");
+            const breadth1 = document.getElementById("breadth1");
+            const breadth2 = document.getElementById("breadth2");
+
+            const lengthUnit1 = document.getElementById("lengthUnit1");
+            const lengthUnit2 = document.getElementById("lengthUnit2");
+            const breadthUnit1 = document.getElementById("breadthUnit1");
+            const breadthUnit2 = document.getElementById("breadthUnit2");
+
+            const operator = document.getElementById("operator");
+            const ratePerUnitArea = document.getElementById("ratePerUnitArea");
+
+            const rateUnit = document.getElementById("rateUnit");
+            const areaUnit = document.getElementById("areaUnit");
+
             let l1 = parseFloat(length1.value) || 0;
             let l2 = parseFloat(length2.value) || 0;
             let b1 = parseFloat(breadth1.value) || 0;
@@ -126,7 +142,7 @@ class Calculator {
             let bu1 = breadthUnit1.value;
             let bu2 = breadthUnit2.value;
 
-            let op = parseFloat(operator.value) || 1;
+            let op = parseFloat(operator.value) || 0;
             let rate = parseFloat(ratePerUnitArea.value) || 0;
 
             let ru = rateUnit.value;
