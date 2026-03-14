@@ -2,7 +2,6 @@ class PWAHandler {
     constructor() {
         this.installBtn = document.getElementById('installBtn');
         this.deferredPrompt = null;
-        this.init();
     }
 
     init() {
@@ -41,7 +40,7 @@ class PWAHandler {
 }
 
 class Calculator {
-    constructor() {
+    fillAddDropdown() {
         this.lengthUnits = ["Meter", "Centimeter", "Foot", "Inch", "Nol", "Haat"];
         this.areaUnits = ["Square Meter", "Square Centimeter", "Square Foot", "Square Inch", "Hectare", "Acre", "Bigha", "Kear", "Josti", "Raak", "Fon", "Kata"];
         this.rateUnits = ["Rs. Per Square Meter", "Rs. Per Square Centimeter", "Rs. Per Square Foot", "Rs. Per Square Inch", "Rs. Per Hectare", "Rs. Per Acre", "Rs. Per Bigha", "Rs. Per Kear", "Rs. Per Josti", "Rs. Per Raak", "Rs. Per Fon", "Rs. Per Kata"];
@@ -55,9 +54,6 @@ class Calculator {
         this.fillDropdown("operatorUnit", this.operatorUnits);
         this.fillDropdown("rateUnit", this.rateUnits);
         this.fillDropdown("areaUnit", this.areaUnits);
-
-        this.setPrevValues();
-        this.initEvents();
     }
 
     initEvents() {
@@ -76,8 +72,14 @@ class Calculator {
             }
         });
 
-        document.getElementById("btnClear").addEventListener("click", () => this.clearAll());
-        document.getElementById("btnCalculate").addEventListener("click", () => this.calculate());
+        document.getElementById("btnClear").addEventListener("click", () => {
+            this.clearAll();
+            this.showToast("Cleared!");
+        });
+        document.getElementById("btnCalculate").addEventListener("click", () => {
+            this.calculate();
+            this.showToast("Calculated!");
+        });
         document.getElementById("copyResult").addEventListener("click", () => {
             const area = document.getElementById("resultArea").textContent;
             const price = document.getElementById("resultPrice").textContent;
@@ -87,6 +89,7 @@ class Calculator {
         Price: ${price}`;
 
             navigator.clipboard.writeText(text);
+            this.showToast("Copied!");
         });
         document.getElementById("viewHistory").addEventListener("click", () => window.location.href = "/history");
         document.getElementById("hideResultCard").addEventListener("click", () => document.getElementById("resultCard").style.display = "none");
@@ -237,9 +240,25 @@ class Calculator {
             default: return areaSm;
         }
     }
+
+    showToast(msg,time=1600){
+        const t=document.getElementById('toast');
+        if(!t)return;
+        t.textContent=msg;
+        t.classList.add('show');
+        t.style.display='block';
+        clearTimeout(t._to);
+        t._to=setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.style.display='none',220);},time);
+    }
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
     const pwa = new PWAHandler();
     const calc = new Calculator();
+
+    pwa.init();
+
+    calc.fillAddDropdown();
+    calc.setPrevValues();
+    calc.initEvents();
 });

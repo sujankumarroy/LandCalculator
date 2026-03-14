@@ -23,6 +23,7 @@ class HistoryManager {
                 </div>
             `;
         });
+
         if (historyList.innerHTML === "") {
             historyList.innerHTML = "No History";
             this.showToast("No History!");
