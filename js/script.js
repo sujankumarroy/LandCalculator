@@ -97,6 +97,7 @@ class Calculator {
         arr.forEach(v => {
             let option = document.createElement("option");
             option.text = v;
+            option.value = v;
             select.add(option);
         });
     }
@@ -178,7 +179,7 @@ class Calculator {
             let areaSm = lengthM * breadthM;
             let area = this.areaConverter(areaSm, au);
             let totalArea = area * op;
-            let price = this.areaConverter(totalArea, ru.replace("Rs. Per ", "")) * rate;
+            let price = this.areaConverter(areaSm, ru.replace("Rs. Per ", "")) * op * rate;
 
             const result = { l1, l2, b1, b2, lu1, lu2, bu1, bu2, op, rate, ru, au, lengthM, breadthM, areaSm, area, totalArea, price };
 
