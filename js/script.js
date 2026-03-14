@@ -192,6 +192,8 @@ class Calculator {
 
     saveHistory(result) {
         let history = JSON.parse(localStorage.getItem("history")) || [];
+        let { date, ...lastResult } = history[history.length - 1]
+        if (JSON.stringify(result) == JSON.stringify(lastResult)) return;
         history.push({
             date: new Date().toLocaleString(),
             ...result
