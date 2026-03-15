@@ -81,14 +81,7 @@ class Calculator {
             this.showToast("Calculated!");
         });
         document.getElementById("copyResult").addEventListener("click", () => {
-            const area = document.getElementById("resultArea").textContent;
-            const price = document.getElementById("resultPrice").textContent;
-
-            const text = `Land Calculation Result
-        Area: ${area}
-        Price: ${price}`;
-
-            navigator.clipboard.writeText(text);
+            this.copyResult()
             this.showToast("Copied!");
         });
         document.getElementById("viewHistory").addEventListener("click", () => window.location.href = "/history");
@@ -122,6 +115,17 @@ class Calculator {
 
         document.getElementById("operator").value = v.op;
         document.getElementById("ratePerUnitArea").value = v.rate;
+    }
+
+    copyResult() {
+        const area = document.getElementById("resultArea").textContent;
+        const price = document.getElementById("resultPrice").textContent;
+
+        const text = `Land Calculation Result
+    Area: ${area}
+    Price: ${price}`;
+
+        navigator.clipboard.writeText(text);
     }
 
     convertToMeter(value, unit) {
