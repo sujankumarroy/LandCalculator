@@ -1,11 +1,11 @@
-const APP_VERSION = '2.2.85';
-const CACHE_NAME = `landcalculator-${APP_VERSION}`;
+const APP_VERSION = '2.5.0';
+const CACHE_NAME = `landcalculator-v${APP_VERSION}`;
 const STATIC_ASSETS = [
     "/",
     "/index",
     "/history",
     "/offline",
-    "css/nav.css"
+    "css/nav.css",
     "css/style.css",
     "css/history.css",
     "js/script.js",
@@ -15,8 +15,9 @@ const STATIC_ASSETS = [
 self.addEventListener("install", e => {
     e.waitUntil(
         caches.open(CACHE_NAME).then(cache => {
+            console.log('Caching static assets');
             return cache.addAll(STATIC_ASSETS);
-        })
+        }).then(() => self.skipWaiting())
     );
 });
 
@@ -24,38 +25,30 @@ self.addEventListener('activate', event => {
     event.waitUntil(
         caches.keys().then(keys => {
             return Promise.all(
-                keys
-                    .filter(key => key !== CACHE_NAME)
+                keys.filter(key => key !== CACHE_NAME)
                     .map(key => caches.delete(key))
-            );
-        }).then(() => {
-            return self.clients.matchAll({ type: 'window' }).then(clients =>
-                clients.forEach(client => client.navigate(client.url))
             );
         })
     );
-
-    self.clients.claim(); // take control immediately
+    self.clients.claim();
 });
 
 self.addEventListener("fetch", e => {
     e.respondWith(
         caches.match(e.request).then(cachedResponse => {
-            const networkResponse = fetch(e.request)
-                .then(res => {
-                    if ( res && res.status === 200 && e.request.url.startsWith(self.location.origin)) {
-                        caches.open(CACHE_NAME).then(cache => {
-                            cache.put(e.request, res.clone());
-                        });
-                    }
-                    return res;
-                })
-                .catch(() => {
-                    if (e.request.mode === 'navigate') {
-                        return caches.match('/offline');
-                    }
-                });
-            return cachedResponse || networkResponse;
+            return cachedResponse || fetch(e.request).then(networkResponse => {
+                if (networkResponse && networkResponse.status === 200 && e.request.url.startsWith(self.location.origin)) {
+                    return caches.open(CACHE_NAME).then(cache => {
+                        cache.put(e.request, networkResponse.clone());
+                        return networkResponse;
+                    });
+                }
+                return networkResponse;
+            }).catch(() => {
+                if (e.request.mode === 'navigate') {
+                    return caches.match('/offline');
+                }
+            });
         })
     );
 });
