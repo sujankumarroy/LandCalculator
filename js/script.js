@@ -258,8 +258,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     let values = {};
 
+    const sessionValues = JSON.parse(sessionStorage.getItem("redirectValues")) || {};
     const history = JSON.parse(localStorage.getItem("history")) || [];
-    if (history.length != 0) values = history[history.length - 1];
+
+    if (sessionValues && sessionValues.use) {
+        values = sessionValues;
+
+        sessionValues.use = false;
+        sessionStorage.setItem("redirectValues", JSON.stringify(sessionValues));
+    } else if (history.length != 0) {
+        values = history[history.length - 1];
+    }
 
     calc.setValues(values);
     calc.initEvents();

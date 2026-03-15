@@ -86,7 +86,7 @@ class HistoryManager {
         const history = JSON.parse(localStorage.getItem("history")) || [];
         const values = history[index];
 
-        sessionStorage.setItem("redirectValues", JSON.stringify(values));
+        sessionStorage.setItem("redirectValues", JSON.stringify({ use: true, ...values }));
         window.location.href = "/";
     }
 
