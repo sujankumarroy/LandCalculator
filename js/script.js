@@ -105,27 +105,22 @@ class Calculator {
         });
     }
 
-    setPrevValues() {
-        let history = JSON.parse(localStorage.getItem("history")) || [];
-        if (history.length === 0) return;
+    setValues(v) {
+        document.getElementById("lengthUnit1").value = v.lu1;
+        document.getElementById("lengthUnit2").value = v.lu2;
+        document.getElementById("breadthUnit1").value = v.bu1;
+        document.getElementById("breadthUnit2").value = v.bu2;
 
-        const lastHistory = history[history.length - 1];
+        document.getElementById("rateUnit").value = v.ru;
+        document.getElementById("areaUnit").value = v.au;
 
-        document.getElementById("lengthUnit1").value = lastHistory.lu1;
-        document.getElementById("lengthUnit2").value = lastHistory.lu2;
-        document.getElementById("breadthUnit1").value = lastHistory.bu1;
-        document.getElementById("breadthUnit2").value = lastHistory.bu2;
+        document.getElementById("length1").value = v.l1;
+        document.getElementById("length2").value = v.l2;
+        document.getElementById("breadth1").value = v.b1;
+        document.getElementById("breadth2").value = v.b2;
 
-        document.getElementById("rateUnit").value = lastHistory.ru;
-        document.getElementById("areaUnit").value = lastHistory.au;
-
-        document.getElementById("length1").value = lastHistory.l1;
-        document.getElementById("length2").value = lastHistory.l2;
-        document.getElementById("breadth1").value = lastHistory.b1;
-        document.getElementById("breadth2").value = lastHistory.b2;
-
-        document.getElementById("operator").value = lastHistory.op;
-        document.getElementById("ratePerUnitArea").value = lastHistory.rate;
+        document.getElementById("operator").value = v.op;
+        document.getElementById("ratePerUnitArea").value = v.rate;
     }
 
     convertToMeter(value, unit) {
@@ -259,8 +254,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     const calc = new Calculator();
 
     pwa.init();
-
     calc.fillAddDropdown();
-    calc.setPrevValues();
+
+    let values = {};
+
+    const history = JSON.parse(localStorage.getItem("history")) || [];
+    if (history.length != 0) values = history[history.length - 1];
+
+    calc.setValues(values);
     calc.initEvents();
 });
