@@ -11,15 +11,23 @@ class HistoryManager {
         historyList.innerHTML = "";
         history.forEach(h => {
             historyList.innerHTML += `
-                <div>
-                    <strong>${h.date}</strong><br>
-                    Length: ${(h.lu1 == h.lu2) ? `${h.l1 + h.l2} ${h.lu1}` : `${h.l1} ${h.lu1}, ${h.l2} ${h.lu2}`}<br>
-                    Breadth: ${(h.bu1 == h.bu2) ? `${h.b1 + h.b2} ${h.bu1}` : `${h.b1} ${h.bu1}, ${h.b2} ${h.bu2}`}<br>
-                    Area: ${h.area} ${h.au}<br>
-                    Operator: ${h.op}<br>
-                    Total Area: ${h.totalArea} ${h.au}<br>
-                    Rate: ${h.rate} ${h.ru}<br>
-                    Price: ${h.price}<br><br>
+                <div class="history-item">
+                    <div class="history-header">
+                        <span class="history-date">${h.date}</span>
+                        <span class="history-area">${h.totalArea} ${h.au}</span>
+                    </div>
+
+                    <div class="history-body">
+                        <div><b>Length</b>: ${(h.lu1 == h.lu2) ? `${h.l1 + h.l2} ${h.lu1}` : `${h.l1} ${h.lu1}, ${h.l2} ${h.lu2}`}</div>
+                        <div><b>Breadth</b>: ${(h.bu1 == h.bu2) ? `${h.b1 + h.b2} ${h.bu1}` : `${h.b1} ${h.bu1}, ${h.b2} ${h.bu2}`}</div>
+                        <div><b>Area</b>: ${h.area} ${h.au}</div>
+                        <div><b>Operator</b>: ${h.op}</div>
+                        <div><b>Rate</b>: ${h.rate} ${h.ru}</div>
+                    </div>
+
+                    <div class="history-footer">
+                        <span class="price">₹ ${h.price}</span>
+                    </div>
                 </div>
             `;
         });
