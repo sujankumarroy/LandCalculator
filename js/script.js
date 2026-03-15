@@ -40,7 +40,7 @@ class PWAHandler {
 }
 
 class Calculator {
-    fillAddDropdown() {
+    fillAllDropdown() {
         this.lengthUnits = ["Meter", "Centimeter", "Foot", "Inch", "Nol", "Haat"];
         this.areaUnits = ["Square Meter", "Square Centimeter", "Square Foot", "Square Inch", "Hectare", "Acre", "Bigha", "Kear", "Josti", "Raak", "Fon", "Kata"];
         this.rateUnits = ["Rs. Per Square Meter", "Rs. Per Square Centimeter", "Rs. Per Square Foot", "Rs. Per Square Inch", "Rs. Per Hectare", "Rs. Per Acre", "Rs. Per Bigha", "Rs. Per Kear", "Rs. Per Josti", "Rs. Per Raak", "Rs. Per Fon", "Rs. Per Kata"];
@@ -106,6 +106,7 @@ class Calculator {
     }
 
     setValues(v) {
+        if (!v || Object.keys(v).length === 0) return;
         document.getElementById("lengthUnit1").value = v.lu1;
         document.getElementById("lengthUnit2").value = v.lu2;
         document.getElementById("breadthUnit1").value = v.bu1;
@@ -254,9 +255,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const calc = new Calculator();
 
     pwa.init();
-    calc.fillAddDropdown();
+    calc.fillAllDropdown();
 
-    let values = {};
+    let values;
 
     const sessionValues = JSON.parse(sessionStorage.getItem("redirectValues")) || {};
     const history = JSON.parse(localStorage.getItem("history")) || [];
