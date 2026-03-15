@@ -2,6 +2,7 @@ class HistoryManager {
     initEvents() {
         document.getElementById("exportBtn").addEventListener("click", () => this.exportHistory());
         document.getElementById("clearHistoryBtn").addEventListener("click", () => this.clearHistory());
+        document.getElementById("historyList").addEventListener("click", (e) => this.redirectValues(e));
     }
 
     showHistory() {
@@ -9,9 +10,9 @@ class HistoryManager {
         let history = JSON.parse(localStorage.getItem("history")) || [];
 
         historyList.innerHTML = "";
-        history.forEach(h => {
+        history.forEach((h, index) => {
             historyList.innerHTML += `
-                <div class="history-item">
+                <div data-index="${index}" class="history-item">
                     <div class="history-header">
                         <span class="history-date">${h.date}</span>
                         <span class="history-area">${h.totalArea} ${h.au}</span>
@@ -75,6 +76,18 @@ class HistoryManager {
         localStorage.removeItem("history");
         historyList.innerHTML = "No History";
         this.showToast("History Cleared!");
+    }
+
+    redirectValues(e) {
+        const historyItem = e.target.closest(".history-item");
+        if (!historyItem) return;
+
+        const index = historyItem.dataset.index;
+        const history = JSON.parse(localStorage.getItem("history")) || [];
+        const values = history[index];
+
+        sessionStorage.setItem("redirectValues", JSON.stringify(values));
+        window.location.href = "/";
     }
 
     showToast(msg,time=1600){
