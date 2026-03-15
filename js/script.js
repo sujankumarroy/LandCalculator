@@ -118,12 +118,24 @@ class Calculator {
     }
 
     copyResult() {
+        const length = document.getElementById("resultLength").textContent;
+        const breadth = document.getElementById("resultBreadth").textContent;
         const area = document.getElementById("resultArea").textContent;
+        const operator = document.getElementById("resultOperator").textContent;
+        const totalArea = document.getElementById("resultTotalArea").textContent;
+        const rate = document.getElementById("resultRate").textContent;
         const price = document.getElementById("resultPrice").textContent;
 
-        const text = `Land Calculation Result
-    Area: ${area}
-    Price: ${price}`;
+        let text = "";
+
+        text += `*Land Calculation Result*\n\n`;
+        text += `* Length: ${length}\n`;
+        text += `* Breadth: ${breadth}\n`;
+        text += `* Area: ${area}\n`;
+        text += `* Operator: ${operator}\n`;
+        text += `* Total Area: ${totalArea}\n`;
+        text += `* Rate: ${rate}\n`;
+        text += `* Price: ${price}`;
 
         navigator.clipboard.writeText(text);
     }
