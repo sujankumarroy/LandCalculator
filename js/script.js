@@ -216,11 +216,11 @@ class Calculator {
 
     saveHistory(result) {
         let history = JSON.parse(localStorage.getItem("history")) || [];
-        if (history.length  != 0) {
-            let { date, ...lastResult } = history[history.length - 1]
+        if (history.length != 0) {
+            let { date, ...lastResult } = history[0]
             if (JSON.stringify(result) == JSON.stringify(lastResult)) return;
         }
-        history.push({
+        history.unshift({
             date: new Date().toLocaleString(),
             ...result
         });
@@ -293,7 +293,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         sessionValues.use = false;
         sessionStorage.setItem("redirectValues", JSON.stringify(sessionValues));
     } else if (history.length != 0) {
-        values = history[history.length - 1];
+        values = history[0];
     }
 
     calc.setValues(values);
