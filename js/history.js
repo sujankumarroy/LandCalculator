@@ -15,15 +15,17 @@ class HistoryManager {
                 <div data-index="${index}" class="history-item">
                     <div class="history-header">
                         <span class="history-date">${h.date}</span>
-                        <span class="history-area">${h.totalArea} ${h.au}</span>
+                        <span class="history-area">${h.area} ${h.au}</span>
                     </div>
 
                     <div class="history-body">
                         <div><b>Length</b>: ${(h.lu1 == h.lu2) ? `${h.l1 + h.l2} ${h.lu1}` : `${h.l1} ${h.lu1}, ${h.l2} ${h.lu2}`}</div>
                         <div><b>Breadth</b>: ${(h.bu1 == h.bu2) ? `${h.b1 + h.b2} ${h.bu1}` : `${h.b1} ${h.bu1}, ${h.b2} ${h.bu2}`}</div>
-                        <div><b>Area</b>: ${h.area} ${h.au}</div>
+                        <div><b>Area</b>: ${h.totalArea} ${h.au}</div>
                         <div><b>Operator</b>: ${h.op}</div>
+                        <div><b>Total Area</b>: ${h.area} ${h.au}</div>
                         <div><b>Rate</b>: ${h.rate} ${h.ru}</div>
+                        <div><b>Price</b>: ₹ ${h.price}</div>
                     </div>
 
                     <div class="history-footer">
