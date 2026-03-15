@@ -196,7 +196,16 @@ class Calculator {
             let totalArea = area * op;
             let price = this.areaConverter(areaSm, ru.replace("Rs. Per ", "")) * op * rate;
 
-            const result = { l1, l2, b1, b2, lu1, lu2, bu1, bu2, op, rate, ru, au, lengthM, breadthM, areaSm, area, totalArea, price };
+            const result = { 
+                l1, l2, b1, b2, 
+                lu1, lu2, bu1, bu2, 
+                op, rate, ru, au, 
+                lengthM, breadthM, 
+                areaSm: areaSm.toFixed(4), 
+                area: area.toFixed(4), 
+                totalArea: totalArea.toFixed(4), 
+                price: price.toFixed(2) 
+            };
 
             this.showResult(result);
             if (area) this.saveHistory(result);
