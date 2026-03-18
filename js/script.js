@@ -42,7 +42,8 @@ class PWAHandler {
 class Calculator {
     fillAllDropdown() {
         this.lengthUnits = ["Meter", "Centimeter", "Foot", "Inch", "Nol", "Haat"];
-        this.areaUnits = ["Square Meter", "Square Centimeter", "Square Foot", "Square Inch", "Hectare", "Acre", "Bigha", "Kear", "Josti", "Raak", "Fon", "Kata"];
+        this.derivedAreaUnits = ["Kear_Josti_Raak_Fon"];
+        this.areaUnits = ["Square Meter", "Square Centimeter", "Square Foot", "Square Inch", "Hectare", "Acre", "Bigha", "Kear", "Josti", "Raak", "Fon", "Kata", ...this.derivedAreaUnits];
         this.rateUnits = ["Rs. Per Square Meter", "Rs. Per Square Centimeter", "Rs. Per Square Foot", "Rs. Per Square Inch", "Rs. Per Hectare", "Rs. Per Acre", "Rs. Per Bigha", "Rs. Per Kear", "Rs. Per Josti", "Rs. Per Raak", "Rs. Per Fon", "Rs. Per Kata"];
         this.operatorUnits = ["Multiply"];
 
@@ -192,8 +193,16 @@ class Calculator {
             let breadthM = this.convertToMeter(b1, bu1) + this.convertToMeter(b2, bu2);
 
             let areaSm = lengthM * breadthM;
-            let area = this.areaConverter(areaSm, au);
-            let totalArea = area * op;
+            let area, totalArea;
+
+            if (this.derivedAreaUnits.includes(au)) {
+                area = this.derivedAreaConverter(areaSm, au);
+                totalArea = this.derivedAreaConverter(areaSm * op, au);
+            } else {
+                area = this.areaConverter(areaSm, au);
+                totalArea = area * op;
+            }
+
             let price = this.areaConverter(areaSm, ru.replace("Rs. Per ", "")) * op * rate;
 
             const result = { 
@@ -202,8 +211,8 @@ class Calculator {
                 op, rate, ru, au, 
                 lengthM, breadthM, 
                 areaSm: areaSm.toFixed(4), 
-                area: area.toFixed(4), 
-                totalArea: totalArea.toFixed(4), 
+                area: area,
+                totalArea: totalArea,
                 price: price.toFixed(2) 
             };
 
@@ -265,6 +274,24 @@ class Calculator {
         const areaInMeters = area * (factors[unit1] || 1);
 
         return areaInMeters / (factors[unit2] || 1);
+    }
+
+    derivedAreaConverter(area, unit2, unit1 = "Square Meter") {
+        const baseUnits = unit2.split("_");
+        const result = [];
+
+        baseUnits.forEach((item, index) => {
+            const r = this.areaConverter(area, baseUnits[index], unit1);
+            if (r > 1) {
+                const lr = r.toFixed(0);
+                const rr = r - lr;
+                result.push(lr);
+                area = rr;
+                unit1 = baseUnits[index];
+            }
+            else result.push(0);
+        });
+        return result;
     }
 
     showToast(msg,time=1600){
