@@ -212,7 +212,7 @@ class Calculator {
             }
 
             const strResult = this.generateStrResult({
-                ...input,
+                input: { ...input},
                 area: area,
                 totalArea: totalArea,
                 price: price.toFixed(2)
@@ -247,7 +247,7 @@ class Calculator {
         document.getElementById("resultLength").textContent = r.length;
         document.getElementById("resultBreadth").textContent = r.breadth;
         document.getElementById("resultArea").textContent = r.area;
-        document.getElementById("resultOperator").textContent = r.operator;
+        document.getElementById("resultOperator").textContent = r.op;
         document.getElementById("resultTotalArea").textContent = r.totalArea;
         document.getElementById("resultRate").textContent = r.rate;
         document.getElementById("resultPrice").textContent = r.price;
@@ -259,23 +259,25 @@ class Calculator {
     }
 
     generateStrResult(r) {
-        const baseUnits = r.au.split("_");
+        const ri = r.input;
+        console.log(ri)
+        const baseUnits = ri.au.split("_");
 
         const area = (Array.isArray(r.area))
                 ? r.area.map((item, index) => { return `${item} ${baseUnits[index]}` }).join(", ")
-                : `${r.area} ${au}`;
+                : `${r.area} ${ri.au}`;
 
         const totalArea = (Array.isArray(r.totalArea))
                 ? r.totalArea.map((item, index) => { return `${item} ${baseUnits[index]}` }).join(", ")
-                : `${r.totalArea} ${au}`;
+                : `${r.totalArea} ${ri.au}`;
 
         return {
-            length: `${(r.lu1 == r.lu2) ? `${r.l1 + r.l2} ${r.lu1}` : `${r.l1} ${r.lu1}, ${r.l2} ${r.lu2}`}`,
-            breadth: `${(r.bu1 == r.bu2) ? `${r.b1 + r.b2} ${r.bu1}` : `${r.b1} ${r.bu1}, ${r.b2} ${r.bu2}`}`,
+            length: `${(ri.lu1 == ri.lu2) ? `${ri.l1 + ri.l2} ${ri.lu1}` : `${ri.l1} ${ri.lu1}, ${ri.l2} ${ri.lu2}`}`,
+            breadth: `${(ri.bu1 == ri.bu2) ? `${ri.b1 + ri.b2} ${ri.bu1}` : `${ri.b1} ${ri.bu1}, ${ri.b2} ${ri.bu2}`}`,
             area: area,
-            operator: `${r.op}`,
+            op: `${ri.op}`,
             totalArea: totalArea,
-            rate: `${r.rate} ${r.ru}`,
+            rate: `${ri.rate} ${ri.ru}`,
             price: `₹ ${r.price.toLocaleString("en-IN")}`
         }
     }
@@ -342,7 +344,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const history = JSON.parse(localStorage.getItem("history")) || [];
 
     if (sessionValues && sessionValues.use) {
-        values = sessionValues;
+        values = sessionValues.input;
 
         sessionValues.use = false;
         sessionStorage.setItem("redirectValues", JSON.stringify(sessionValues));
