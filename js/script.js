@@ -247,20 +247,36 @@ class Calculator {
         card.scrollIntoView({ behavior: "smooth", block: "center" });
     }
 
-    areaConverter(areaSm, unit) {
-        switch (unit) {
-            case "Square Meter": return areaSm;
-            case "Square Centimeter": return areaSm * 10000;
-            case "Square Foot": return areaSm * 10.7639;
-            case "Square Inch": return areaSm * 1550.0031;
-            case "Hectare": return areaSm / 10000;
-            case "Acre": return areaSm / 4046.86;
-            case "Bigha": return areaSm / 1600;
-            case "Kear": return areaSm / (0.4572 * 0.4572 * 8 * 8 * 4 * 28);
-            case "Josti": return areaSm / (0.4572 * 0.4572 * 8 * 8 * 4);
-            case "Raak": return areaSm / (0.4572 * 0.4572 * 8 * 8);
-            case "Fon": return areaSm / (0.4572 * 0.4572);
-            default: return areaSm;
+    areaConverter(area, unit2, unit1 = "Square Meter") {
+        if (unit1 !== "Square Meter") {
+            switch (unit1) {
+                case "Square Centimeter": return this.areaConverter(area / 10000, unit2);
+                case "Square Foot": return this.areaConverter(area / 10.7639, unit2);
+                case "Square Inch": return this.areaConverter(area / 1550.0031, unit2);
+                case "Hectare": return this.areaConverter(area * 10000, unit2);
+                case "Acre": return this.areaConverter(area * 4046.86, unit2);
+                case "Bigha": return this.areaConverter(area * 1600, unit2);
+                case "Kear": return this.areaConverter(area * (0.4572 * 0.4572 * 8 * 8 * 4 * 28), unit2);
+                case "Josti": return this.areaConverter(area * (0.4572 * 0.4572 * 8 * 8 * 4), unit2);
+                case "Raak": return this.areaConverter(area * (0.4572 * 0.4572 * 8 * 8), unit2);
+                case "Fon": return this.areaConverter(area * (0.4572 * 0.4572), unit2);
+                case "Square Meter": return this.areaConverter(area, unit2);
+                default: return area;
+            }
+        }
+        switch (unit2) {
+            case "Square Meter": return area;
+            case "Square Centimeter": return area * 10000;
+            case "Square Foot": return area * 10.7639;
+            case "Square Inch": return area * 1550.0031;
+            case "Hectare": return area / 10000;
+            case "Acre": return area / 4046.86;
+            case "Bigha": return area / 1600;
+            case "Kear": return area / (0.4572 * 0.4572 * 8 * 8 * 4 * 28);
+            case "Josti": return area / (0.4572 * 0.4572 * 8 * 8 * 4);
+            case "Raak": return area / (0.4572 * 0.4572 * 8 * 8);
+            case "Fon": return area / (0.4572 * 0.4572);
+            default: return area;
         }
     }
 
