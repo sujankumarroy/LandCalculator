@@ -263,11 +263,11 @@ class Calculator {
 
         const area = (Array.isArray(r.area))
                 ? r.area.map((item, index) => { return `${item} ${baseUnits[index]}` }).join(", ")
-                : "";
+                : `${r.area} ${au}`;
 
         const totalArea = (Array.isArray(r.totalArea))
                 ? r.totalArea.map((item, index) => { return `${item} ${baseUnits[index]}` }).join(", ")
-                : "";
+                : `${r.totalArea} ${au}`;
 
         return {
             length: `${(r.lu1 == r.lu2) ? `${r.l1 + r.l2} ${r.lu1}` : `${r.l1} ${r.lu1}, ${r.l2} ${r.lu2}`}`,
@@ -347,7 +347,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         sessionValues.use = false;
         sessionStorage.setItem("redirectValues", JSON.stringify(sessionValues));
     } else if (history.length != 0) {
-        values = history[0];
+        values = history[0].input;
     }
 
     calc.setValues(values);
