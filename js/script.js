@@ -216,6 +216,8 @@ class Calculator {
                 price: price.toFixed(2) 
             };
 
+            console.log(this.generateStrResult(result));
+
             this.showResult(result);
             if (area) this.saveHistory(result);
         } catch(e) {
@@ -254,6 +256,28 @@ class Calculator {
 
         card.style.display = "block";
         card.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    generateStrResult(r) {
+        const baseUnits = r.au.split("_");
+
+        const area = (Array.isArray(r.area))
+                ? r.area.map((item, index) => { return `${item} ${baseUnits[index]}` }).join(", ")
+                : "";
+
+        const totalArea = (Array.isArray(r.totalArea))
+                ? r.totalArea.map((item, index) => { return `${item} ${baseUnits[index]}` }).join(", ")
+                : "";
+
+        return {
+            length: `${(r.lu1 == r.lu2) ? `${r.l1 + r.l2} ${r.lu1}` : `${r.l1} ${r.lu1}, ${r.l2} ${r.lu2}`}`,
+            breadth: `${(r.bu1 == r.bu2) ? `${r.b1 + r.b2} ${r.bu1}` : `${r.b1} ${r.bu1}, ${r.b2} ${r.bu2}`}`,
+            area: area,
+            operator: `${r.op}`,
+            totalArea: totalArea,
+            rate: `${r.rate} ${r.ru}`,
+            price: `${r.price}`
+        }
     }
 
     areaConverter(area, unit2, unit1 = "Square Meter") {
