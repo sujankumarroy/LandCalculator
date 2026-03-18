@@ -205,21 +205,21 @@ class Calculator {
 
             let price = this.areaConverter(areaSm, ru.replace("Rs. Per ", "")) * op * rate;
 
-            const result = { 
-                l1, l2, b1, b2, 
-                lu1, lu2, bu1, bu2, 
-                op, rate, ru, au, 
-                lengthM, breadthM, 
-                areaSm: areaSm.toFixed(4), 
+            const input = {
+                l1, l2, b1, b2,
+                lu1, lu2, bu1, bu2,
+                op, rate, ru, au
+            }
+
+            const strResult = this.generateStrResult({
+                ...input,
                 area: area,
                 totalArea: totalArea,
-                price: price.toFixed(2) 
-            };
+                price: price.toFixed(2)
+            });
 
-            console.log(this.generateStrResult(result));
-
-            this.showResult(result);
-            if (area) this.saveHistory(result);
+            this.showResult(strResult);
+            if (area) this.saveHistory({ input: { ...input }, ...strResult });
         } catch(e) {
             console.error(e);
         }
@@ -244,13 +244,13 @@ class Calculator {
     }
 
     showResult(r) {
-        document.getElementById("resultLength").textContent = (r.lu1 == r.lu2) ? `${r.l1 + r.l2} ${r.lu1}` : `${r.l1} ${r.lu1}, ${r.l2} ${r.lu2}`;
-        document.getElementById("resultBreadth").textContent = (r.bu1 == r.bu2) ? `${r.b1 + r.b2} ${r.bu1}` : `${r.b1} ${r.bu1}, ${r.b2} ${r.bu2}`;
-        document.getElementById("resultArea").textContent = `${r.area} ${r.au}`;
-        document.getElementById("resultOperator").textContent = `${r.op}`;
-        document.getElementById("resultTotalArea").textContent = `${r.totalArea} ${r.au}`;
-        document.getElementById("resultRate").textContent = `${r.rate} ${r.ru}`;
-        document.getElementById("resultPrice").textContent = `₹ ${r.price.toLocaleString("en-IN")}`;
+        document.getElementById("resultLength").textContent = r.length;
+        document.getElementById("resultBreadth").textContent = r.breadth;
+        document.getElementById("resultArea").textContent = r.area;
+        document.getElementById("resultOperator").textContent = r.operator;
+        document.getElementById("resultTotalArea").textContent = r.totalArea;
+        document.getElementById("resultRate").textContent = r.rate;
+        document.getElementById("resultPrice").textContent = r.price;
 
         const card = document.getElementById("resultCard");
 
@@ -276,7 +276,7 @@ class Calculator {
             operator: `${r.op}`,
             totalArea: totalArea,
             rate: `${r.rate} ${r.ru}`,
-            price: `${r.price}`
+            price: `₹ ${r.price.toLocaleString("en-IN")}`
         }
     }
 
