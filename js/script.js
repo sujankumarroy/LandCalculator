@@ -308,7 +308,7 @@ class Calculator {
         baseUnits.forEach((item, index) => {
             const r = this.areaConverter(area, baseUnits[index], unit1);
             if (r > 1) {
-                const lr = r.toFixed(0);
+                const lr = Math.floor(r);
                 const rr = r - lr;
                 result.push(lr);
                 area = rr;
