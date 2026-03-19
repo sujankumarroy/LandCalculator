@@ -260,16 +260,15 @@ class Calculator {
 
     generateStrResult(r) {
         const ri = r.input;
-        console.log(ri)
         const baseUnits = ri.au.split("_");
 
         const area = (Array.isArray(r.area))
                 ? r.area.map((item, index) => { return `${item} ${baseUnits[index]}` }).join(", ")
-                : `${r.area} ${ri.au}`;
+                : `${r.area.toFixed(4)} ${ri.au}`;
 
         const totalArea = (Array.isArray(r.totalArea))
                 ? r.totalArea.map((item, index) => { return `${item} ${baseUnits[index]}` }).join(", ")
-                : `${r.totalArea} ${ri.au}`;
+                : `${r.totalArea.toFixed(4)} ${ri.au}`;
 
         return {
             length: `${(ri.lu1 == ri.lu2) ? `${ri.l1 + ri.l2} ${ri.lu1}` : `${ri.l1} ${ri.lu1}, ${ri.l2} ${ri.lu2}`}`,
@@ -320,14 +319,18 @@ class Calculator {
         return result;
     }
 
-    showToast(msg,time=1600){
-        const t=document.getElementById('toast');
-        if(!t)return;
-        t.textContent=msg;
+    showToast(msg, time = 1600) {
+        const t = document.getElementById('toast');
+        if (!t) return;
+
+        t.textContent = msg;
         t.classList.add('show');
         t.style.display='block';
         clearTimeout(t._to);
-        t._to=setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.style.display='none',220);},time);
+        t._to = setTimeout(() => {
+            t.classList.remove('show');
+            setTimeout(() => t.style.display='none',220);
+        }, time);
     }
 }
 
@@ -345,7 +348,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (sessionValues && sessionValues.use) {
         values = sessionValues.input;
-
         sessionValues.use = false;
         sessionStorage.setItem("redirectValues", JSON.stringify(sessionValues));
     } else if (history.length != 0) {
