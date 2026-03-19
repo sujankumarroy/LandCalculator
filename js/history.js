@@ -36,7 +36,7 @@ class HistoryManager {
         });
 
         if (historyList.innerHTML === "") {
-            historyList.innerHTML = "No History";
+            historyList.innerHTML = `<div class="history-empty">No calculations saved yet.</div>`;
             this.showToast("No History!");
         }
     }
@@ -76,7 +76,7 @@ class HistoryManager {
 
     clearHistory() {
         localStorage.removeItem("history");
-        historyList.innerHTML = "No History";
+        historyList.innerHTML = `<div class="history-empty">No calculations saved yet.</div>`;
         this.showToast("History Cleared!");
     }
 
