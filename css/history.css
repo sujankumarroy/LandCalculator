@@ -205,3 +205,24 @@ body {
     color:#777;
     font-size:13px;
 }
+
+/* Empty State Styling */
+.history-empty {
+    text-align: center;
+    padding: 40px 20px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    color: var(--muted);
+    font-style: italic;
+    grid-column: 1 / -1; /* Works if you ever switch to grid */
+}
+
+/* Optional: Add a small icon-like effect */
+.history-empty::before {
+    content: "📁";
+    display: block;
+    font-size: 2rem;
+    margin-bottom: 10px;
+    opacity: 0.5;
+}

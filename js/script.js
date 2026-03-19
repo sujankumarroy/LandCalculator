@@ -42,7 +42,8 @@ class PWAHandler {
 class Calculator {
     fillAllDropdown() {
         this.lengthUnits = ["Meter", "Centimeter", "Foot", "Inch", "Nol", "Haat"];
-        this.areaUnits = ["Square Meter", "Square Centimeter", "Square Foot", "Square Inch", "Hectare", "Acre", "Bigha", "Kear", "Josti", "Raak", "Fon", "Kata"];
+        this.derivedAreaUnits = ["Kear_Josti_Raak_Fon"];
+        this.areaUnits = ["Square Meter", "Square Centimeter", "Square Foot", "Square Inch", "Hectare", "Acre", "Bigha", "Kear", "Josti", "Raak", "Fon", "Kata", ...this.derivedAreaUnits];
         this.rateUnits = ["Rs. Per Square Meter", "Rs. Per Square Centimeter", "Rs. Per Square Foot", "Rs. Per Square Inch", "Rs. Per Hectare", "Rs. Per Acre", "Rs. Per Bigha", "Rs. Per Kear", "Rs. Per Josti", "Rs. Per Raak", "Rs. Per Fon", "Rs. Per Kata"];
         this.operatorUnits = ["Multiply"];
 
@@ -192,23 +193,33 @@ class Calculator {
             let breadthM = this.convertToMeter(b1, bu1) + this.convertToMeter(b2, bu2);
 
             let areaSm = lengthM * breadthM;
-            let area = this.areaConverter(areaSm, au);
-            let totalArea = area * op;
+            let area, totalArea;
+
+            if (this.derivedAreaUnits.includes(au)) {
+                area = this.derivedAreaConverter(areaSm, au);
+                totalArea = this.derivedAreaConverter(areaSm * op, au);
+            } else {
+                area = this.areaConverter(areaSm, au);
+                totalArea = area * op;
+            }
+
             let price = this.areaConverter(areaSm, ru.replace("Rs. Per ", "")) * op * rate;
 
-            const result = { 
-                l1, l2, b1, b2, 
-                lu1, lu2, bu1, bu2, 
-                op, rate, ru, au, 
-                lengthM, breadthM, 
-                areaSm: areaSm.toFixed(4), 
-                area: area.toFixed(4), 
-                totalArea: totalArea.toFixed(4), 
-                price: price.toFixed(2) 
-            };
+            const input = {
+                l1, l2, b1, b2,
+                lu1, lu2, bu1, bu2,
+                op, rate, ru, au
+            }
 
-            this.showResult(result);
-            if (area) this.saveHistory(result);
+            const strResult = this.generateStrResult({
+                input: { ...input},
+                area: area,
+                totalArea: totalArea,
+                price: price.toFixed(2)
+            });
+
+            this.showResult(strResult);
+            if (area) this.saveHistory({ input: { ...input }, ...strResult });
         } catch(e) {
             console.error(e);
         }
@@ -233,13 +244,13 @@ class Calculator {
     }
 
     showResult(r) {
-        document.getElementById("resultLength").textContent = (r.lu1 == r.lu2) ? `${r.l1 + r.l2} ${r.lu1}` : `${r.l1} ${r.lu1}, ${r.l2} ${r.lu2}`;
-        document.getElementById("resultBreadth").textContent = (r.bu1 == r.bu2) ? `${r.b1 + r.b2} ${r.bu1}` : `${r.b1} ${r.bu1}, ${r.b2} ${r.bu2}`;
-        document.getElementById("resultArea").textContent = `${r.area} ${r.au}`;
-        document.getElementById("resultOperator").textContent = `${r.op}`;
-        document.getElementById("resultTotalArea").textContent = `${r.totalArea} ${r.au}`;
-        document.getElementById("resultRate").textContent = `${r.rate} ${r.ru}`;
-        document.getElementById("resultPrice").textContent = `₹ ${r.price.toLocaleString("en-IN")}`;
+        document.getElementById("resultLength").textContent = r.length;
+        document.getElementById("resultBreadth").textContent = r.breadth;
+        document.getElementById("resultArea").textContent = r.area;
+        document.getElementById("resultOperator").textContent = r.op;
+        document.getElementById("resultTotalArea").textContent = r.totalArea;
+        document.getElementById("resultRate").textContent = r.rate;
+        document.getElementById("resultPrice").textContent = r.price;
 
         const card = document.getElementById("resultCard");
 
@@ -247,31 +258,79 @@ class Calculator {
         card.scrollIntoView({ behavior: "smooth", block: "center" });
     }
 
-    areaConverter(areaSm, unit) {
-        switch (unit) {
-            case "Square Meter": return areaSm;
-            case "Square Centimeter": return areaSm * 10000;
-            case "Square Foot": return areaSm * 10.7639;
-            case "Square Inch": return areaSm * 1550.0031;
-            case "Hectare": return areaSm / 10000;
-            case "Acre": return areaSm / 4046.86;
-            case "Bigha": return areaSm / 1600;
-            case "Kear": return areaSm / (0.4572 * 0.4572 * 8 * 8 * 4 * 28);
-            case "Josti": return areaSm / (0.4572 * 0.4572 * 8 * 8 * 4);
-            case "Raak": return areaSm / (0.4572 * 0.4572 * 8 * 8);
-            case "Fon": return areaSm / (0.4572 * 0.4572);
-            default: return areaSm;
+    generateStrResult(r) {
+        const ri = r.input;
+        const baseUnits = ri.au.split("_");
+
+        const area = (Array.isArray(r.area))
+                ? r.area.map((item, index) => { return `${item} ${baseUnits[index]}` }).join(", ")
+                : `${r.area.toFixed(4)} ${ri.au}`;
+
+        const totalArea = (Array.isArray(r.totalArea))
+                ? r.totalArea.map((item, index) => { return `${item} ${baseUnits[index]}` }).join(", ")
+                : `${r.totalArea.toFixed(4)} ${ri.au}`;
+
+        return {
+            length: `${(ri.lu1 == ri.lu2) ? `${ri.l1 + ri.l2} ${ri.lu1}` : `${ri.l1} ${ri.lu1}, ${ri.l2} ${ri.lu2}`}`,
+            breadth: `${(ri.bu1 == ri.bu2) ? `${ri.b1 + ri.b2} ${ri.bu1}` : `${ri.b1} ${ri.bu1}, ${ri.b2} ${ri.bu2}`}`,
+            area: area,
+            op: `${ri.op}`,
+            totalArea: totalArea,
+            rate: `${ri.rate} ${ri.ru}`,
+            price: `₹ ${r.price.toLocaleString("en-IN")}`
         }
     }
 
-    showToast(msg,time=1600){
-        const t=document.getElementById('toast');
-        if(!t)return;
-        t.textContent=msg;
+    areaConverter(area, unit2, unit1 = "Square Meter") {
+        const factors = {
+            "Square Meter": 1,
+            "Square Centimeter": 1 / 10000,
+            "Square Foot": 1 / 10.7639,
+            "Square Inch": 1 / 1550.0031,
+            "Hectare": 10000,
+            "Acre": 4046.86,
+            "Bigha": 1600,
+            "Kear": (0.4572 * 0.4572 * 8 * 8 * 4 * 28),
+            "Josti": (0.4572 * 0.4572 * 8 * 8 * 4),
+            "Raak": (0.4572 * 0.4572 * 8 * 8),
+            "Fon": (0.4572 * 0.4572)
+        };
+
+        const areaInMeters = area * (factors[unit1] || 1);
+
+        return areaInMeters / (factors[unit2] || 1);
+    }
+
+    derivedAreaConverter(area, unit2, unit1 = "Square Meter") {
+        const baseUnits = unit2.split("_");
+        const result = [];
+
+        baseUnits.forEach((item, index) => {
+            const r = this.areaConverter(area, baseUnits[index], unit1);
+            if (r > 1) {
+                const lr = r.toFixed(0);
+                const rr = r - lr;
+                result.push(lr);
+                area = rr;
+                unit1 = baseUnits[index];
+            }
+            else result.push(0);
+        });
+        return result;
+    }
+
+    showToast(msg, time = 1600) {
+        const t = document.getElementById('toast');
+        if (!t) return;
+
+        t.textContent = msg;
         t.classList.add('show');
         t.style.display='block';
         clearTimeout(t._to);
-        t._to=setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.style.display='none',220);},time);
+        t._to = setTimeout(() => {
+            t.classList.remove('show');
+            setTimeout(() => t.style.display='none',220);
+        }, time);
     }
 }
 
@@ -288,12 +347,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     const history = JSON.parse(localStorage.getItem("history")) || [];
 
     if (sessionValues && sessionValues.use) {
-        values = sessionValues;
-
+        values = sessionValues.input;
         sessionValues.use = false;
         sessionStorage.setItem("redirectValues", JSON.stringify(sessionValues));
     } else if (history.length != 0) {
-        values = history[0];
+        values = history[0].input;
     }
 
     calc.setValues(values);

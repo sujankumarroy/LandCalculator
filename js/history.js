@@ -15,28 +15,28 @@ class HistoryManager {
                 <div data-index="${index}" class="history-item">
                     <div class="history-header">
                         <span class="history-date">${h.date}</span>
-                        <span class="history-area">${h.area} ${h.au}</span>
+                        <span class="history-area">${h.area}</span>
                     </div>
 
                     <div class="history-body">
-                        <div><b>Length</b>: ${(h.lu1 == h.lu2) ? `${h.l1 + h.l2} ${h.lu1}` : `${h.l1} ${h.lu1}, ${h.l2} ${h.lu2}`}</div>
-                        <div><b>Breadth</b>: ${(h.bu1 == h.bu2) ? `${h.b1 + h.b2} ${h.bu1}` : `${h.b1} ${h.bu1}, ${h.b2} ${h.bu2}`}</div>
-                        <div><b>Area</b>: ${h.area} ${h.au}</div>
+                        <div><b>Length</b>: ${h.length}</div>
+                        <div><b>Breadth</b>: ${h.breadth}</div>
+                        <div><b>Area</b>: ${h.area}</div>
                         <div><b>Operator</b>: ${h.op}</div>
-                        <div><b>Total Area</b>: ${h.totalArea} ${h.au}</div>
-                        <div><b>Rate</b>: ${h.rate} ${h.ru}</div>
-                        <div><b>Price</b>: ₹ ${h.price}</div>
+                        <div><b>Total Area</b>: ${h.totalArea}</div>
+                        <div><b>Rate</b>: ${h.rate}</div>
+                        <div><b>Price</b>: ${h.price}</div>
                     </div>
 
                     <div class="history-footer">
-                        <span class="price">₹ ${h.price}</span>
+                        <span class="price">${h.price}</span>
                     </div>
                 </div>
             `;
         });
 
         if (historyList.innerHTML === "") {
-            historyList.innerHTML = "No History";
+            historyList.innerHTML = `<div class="history-empty">No calculations saved yet.</div>`;
             this.showToast("No History!");
         }
     }
@@ -53,12 +53,12 @@ class HistoryManager {
 
         history.forEach(h => {
             content += `Date: ${h.date}\n`;
-            content += `Length: ${(h.lu1 == h.lu2) ? `${h.l1 + h.l2} ${h.lu1}` : `${h.l1} ${h.lu1}, ${h.l2} ${h.lu2}`}\n`;
-            content += `Breadth: ${(h.bu1 == h.bu2) ? `${h.b1 + h.b2} ${h.bu1}` : `${h.b1} ${h.bu1}, ${h.b2} ${h.bu2}`}\n`;
-            content += `Area: ${h.area} ${h.au}\n`;
+            content += `Length: ${h.length}\n`;
+            content += `Breadth: ${h.breadth}}\n`;
+            content += `Area: ${h.area}\n`;
             content += `Operator: ${h.op}\n`;
-            content += `Total Area: ${h.totalArea} ${h.au}\n`;
-            content += `Rate: ${h.rate} ${h.ru}\n`;
+            content += `Total Area: ${h.totalArea}\n`;
+            content += `Rate: ${h.rate}\n`;
             content += `Price: ${h.price}\n`;
             content += "--------------------------------------\n";
         });
@@ -76,7 +76,7 @@ class HistoryManager {
 
     clearHistory() {
         localStorage.removeItem("history");
-        historyList.innerHTML = "No History";
+        historyList.innerHTML = `<div class="history-empty">No calculations saved yet.</div>`;
         this.showToast("History Cleared!");
     }
 
