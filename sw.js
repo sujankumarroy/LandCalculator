@@ -1,21 +1,19 @@
-const APP_VERSION = '2.5.0';
+const APP_VERSION = '2.5.5';
 const CACHE_NAME = `landcalculator-v${APP_VERSION}`;
 const STATIC_ASSETS = [
     "/",
     "/index",
     "/history",
-    "/offline",
-    "css/nav.css",
-    "css/style.css",
-    "css/history.css",
-    "js/script.js",
-    "js/history.js"
+    "/css/nav.css",
+    "/css/style.css",
+    "/css/history.css",
+    "/js/script.js",
+    "/js/history.js"
 ];
 
 self.addEventListener("install", e => {
     e.waitUntil(
         caches.open(CACHE_NAME).then(cache => {
-            console.log('Caching static assets');
             return cache.addAll(STATIC_ASSETS);
         }).then(() => self.skipWaiting())
     );
@@ -44,10 +42,6 @@ self.addEventListener("fetch", e => {
                     });
                 }
                 return networkResponse;
-            }).catch(() => {
-                if (e.request.mode === 'navigate') {
-                    return caches.match('/offline');
-                }
             });
         })
     );
