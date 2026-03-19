@@ -1,4 +1,4 @@
-const APP_VERSION = '2.5.5';
+const APP_VERSION = '2.5.7';
 const CACHE_NAME = `landcalculator-v${APP_VERSION}`;
 const STATIC_ASSETS = [
     "/",
