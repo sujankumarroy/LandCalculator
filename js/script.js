@@ -39,6 +39,40 @@ class PWAHandler {
     }
 }
 
+class DBHandler {
+    init() {
+        this.dbRequest = indexedDB.open("LandCalculator", 1);
+
+        this.dbRequest.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            db.createObjectStore("CalculationHistory", { keyPath: "id", autoIncrement: true });
+        };
+
+        this.dbRequest.onsuccess = (event) => {
+            this.db = event.target.result;
+            console.log("DB Opened");
+        };
+
+        this.dbRequest.onerror = () => {
+            console.log("Error opening DB");
+        };
+    }
+
+    setHistory(obj) {
+        const ts = this.db.transaction("CalculationHistory", "readwrite");
+        const store = ts.objectStore("CalculationHistory");
+        const addReq = store.add(obj);
+        addReq.onsuccess = () => console.log("History Added");
+    }
+
+    getHistory() {
+        const ts = this.db.transaction("CalculationHistory", "readonly");
+        const store = ts.objectStore("CalculationHistory");
+        const addReq = store.getAll();
+        addReq.onsuccess = () => console.log(addReq.result);
+    }
+}
+
 class Calculator {
     fillAllDropdown() {
         this.lengthUnits = ["Meter", "Centimeter", "Foot", "Inch", "Nol", "Haat"];
