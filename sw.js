@@ -1,4 +1,4 @@
-const APP_VERSION = '2.5.7';
+const APP_VERSION = '2.3.1';
 const CACHE_NAME = `landcalculator-v${APP_VERSION}`;
 const STATIC_ASSETS = [
     "/",
@@ -7,6 +7,7 @@ const STATIC_ASSETS = [
     "/css/nav.css",
     "/css/style.css",
     "/css/history.css",
+    "/js/idb-handler.js",
     "/js/script.js",
     "/js/history.js"
 ];
