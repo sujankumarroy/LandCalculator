@@ -75,9 +75,16 @@ class HistoryManager {
     }
 
     clearHistory() {
-        localStorage.removeItem("history");
-        historyList.innerHTML = `<div class="history-empty">No calculations saved yet.</div>`;
-        this.showToast("History Cleared!");
+        new DBHandler().init()
+            .then(lc => lc.clearHistory())
+            .then(() => {
+                historyList.innerHTML = `<div class="history-empty">No calculations saved yet.</div>`;
+                this.showToast("History Cleared!");
+            })
+            .catch((err) => {
+                console.error(err);
+                this.showToast(err);
+            })
     }
 
     async redirectValues(e) {

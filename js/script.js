@@ -183,7 +183,7 @@ class Calculator {
             let bu1 = breadthUnit1.value;
             let bu2 = breadthUnit2.value;
 
-            let op = parseFloat(operator.value) || 0;
+            let op = parseFloat(operator.value) || 1;
             let rate = parseFloat(ratePerUnitArea.value) || 0;
 
             let ru = rateUnit.value;

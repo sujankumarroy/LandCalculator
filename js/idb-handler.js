@@ -38,7 +38,7 @@ class DBHandler {
             const ts = this.db.transaction("CalculationHistory", "readonly");
             const store = ts.objectStore("CalculationHistory");
             const getReq = store.getAll();
-            getReq.onsuccess = () => resolve(addReq.result);
+            getReq.onsuccess = () => resolve(getReq.result);
             getReq.onerror = () => reject("Failed to Get");
         });
     }
