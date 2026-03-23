@@ -5,9 +5,9 @@ class HistoryManager {
         document.getElementById("historyList").addEventListener("click", (e) => this.redirectValues(e));
     }
 
-    showHistory() {
+    async showHistory() {
         const historyList = document.getElementById("historyList");
-        let history = JSON.parse(localStorage.getItem("history")) || [];
+        const history = await new DBHandler().init().then(lc => lc.getHistory()).catch(err => { console.error(err); return []; });
 
         historyList.innerHTML = "";
         history.forEach((h, index) => {
@@ -41,8 +41,8 @@ class HistoryManager {
         }
     }
 
-    exportHistory() {
-        let history = JSON.parse(localStorage.getItem("history")) || [];
+    async exportHistory() {
+        const history = await new DBHandler().init().then(lc => lc.getHistory()).catch(err => { console.error(err); return []; });
 
         if(history.length === 0){
             alert("No history to export.");
@@ -75,17 +75,24 @@ class HistoryManager {
     }
 
     clearHistory() {
-        localStorage.removeItem("history");
-        historyList.innerHTML = `<div class="history-empty">No calculations saved yet.</div>`;
-        this.showToast("History Cleared!");
+        new DBHandler().init()
+            .then(lc => lc.clearHistory())
+            .then(() => {
+                historyList.innerHTML = `<div class="history-empty">No calculations saved yet.</div>`;
+                this.showToast("History Cleared!");
+            })
+            .catch((err) => {
+                console.error(err);
+                this.showToast(err);
+            })
     }
 
-    redirectValues(e) {
+    async redirectValues(e) {
         const historyItem = e.target.closest(".history-item");
         if (!historyItem) return;
 
         const index = historyItem.dataset.index;
-        const history = JSON.parse(localStorage.getItem("history")) || [];
+        const history = await new DBHandler().init().then(lc => lc.getHistory()).catch(err => { console.error(err); return []; });
         const values = history[index];
 
         sessionStorage.setItem("redirectValues", JSON.stringify({ use: true, ...values }));

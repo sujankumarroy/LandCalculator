@@ -183,7 +183,7 @@ class Calculator {
             let bu1 = breadthUnit1.value;
             let bu2 = breadthUnit2.value;
 
-            let op = parseFloat(operator.value) || 0;
+            let op = parseFloat(operator.value) || 1;
             let rate = parseFloat(ratePerUnitArea.value) || 0;
 
             let ru = rateUnit.value;
@@ -225,17 +225,17 @@ class Calculator {
         }
     }
 
-    saveHistory(result) {
-        let history = JSON.parse(localStorage.getItem("history")) || [];
+    async saveHistory(result) {
+        const history = await new DBHandler().init().then(lc => lc.getHistory()).catch(err => { console.error(err); return []; });
         if (history.length != 0) {
             let { date, ...lastResult } = history[0]
             if (JSON.stringify(result) == JSON.stringify(lastResult)) return;
         }
-        history.unshift({
+
+        new DBHandler().init().then(lc => lc.setHistory({
             date: new Date().toLocaleString(),
             ...result
-        });
-        localStorage.setItem("history", JSON.stringify(history));
+        })).then(res => console.log(res)).catch(err => console.error(err));
     }
 
     clearAll() {
@@ -344,14 +344,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     let values;
 
     const sessionValues = JSON.parse(sessionStorage.getItem("redirectValues")) || {};
-    const history = JSON.parse(localStorage.getItem("history")) || [];
+    const history = await new DBHandler().init().then(lc => lc.getHistory()).catch(err => { console.error(err); return []; });
 
     if (sessionValues && sessionValues.use) {
         values = sessionValues.input;
         sessionValues.use = false;
         sessionStorage.setItem("redirectValues", JSON.stringify(sessionValues));
     } else if (history.length != 0) {
-        values = history[0].input;
+        values = history[history.length - 1].input;
     }
 
     calc.setValues(values);
