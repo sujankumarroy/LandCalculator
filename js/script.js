@@ -40,7 +40,7 @@ class PWAHandler {
 }
 
 class DBHandler {
-    init() {
+    constructor() {
         this.dbRequest = indexedDB.open("LandCalculator", 1);
 
         this.dbRequest.onupgradeneeded = (event) => {
@@ -270,6 +270,11 @@ class Calculator {
             ...result
         });
         localStorage.setItem("history", JSON.stringify(history));
+        const lc = new DBHandler();
+        lc.setHistory({
+            date: new Date().toLocaleString(),
+            ...result
+        });
     }
 
     clearAll() {
