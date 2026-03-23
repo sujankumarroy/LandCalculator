@@ -43,4 +43,24 @@ class DBHandler {
             addReq.onsuccess = () => resolve(addReq.result);
         });
     }
+
+    deleteHistory(id) {
+        return new Promise((resolve, reject) => {
+            const ts = this.db.transaction("CalculationHistory", "readwrite");
+            const store = ts.objectStore("CalculationHistory");
+            const deleteReq = store.delete(id);
+            deleteReq.onsuccess = () => resolve("Deleted successfully");
+            deleteReq.onerror = () => reject("Delete failed");
+        });
+    }
+
+    clearHistory() {
+        return new Promise((resolve, reject) => {
+            const ts = this.db.transaction("CalculationHistory", "readwrite");
+            const store = ts.objectStore("CalculationHistory");
+            const clearReq = store.clear();
+            clearReq.onsuccess = () => resolve("All history cleared");
+            clearReq.onerror = () => reject("Clear failed");
+        });
+    }
 }
