@@ -40,7 +40,13 @@ class PWAHandler {
 }
 
 class DBHandler {
-    constructor(onReady) {
+    constructor() {
+        this.dbRequest = null;
+        this.db = null;
+    }
+
+    init() {
+        return new Promise((resolve, reject) => {
         this.dbRequest = indexedDB.open("LandCalculator", 1);
 
         this.dbRequest.onupgradeneeded = (event) => {
@@ -51,26 +57,32 @@ class DBHandler {
         this.dbRequest.onsuccess = (event) => {
             this.db = event.target.result;
             console.log("DB Opened");
-            if (onReady) onReady(this);
+            resolve(this);
         };
 
         this.dbRequest.onerror = () => {
             console.log("Error opening DB");
+            reject("Error opening DB");
         };
+        });
     }
 
     setHistory(obj) {
+        return new Promise((resolve, reject) => {
         const ts = this.db.transaction("CalculationHistory", "readwrite");
         const store = ts.objectStore("CalculationHistory");
         const addReq = store.add(obj);
-        addReq.onsuccess = () => console.log("History Added");
+        addReq.onsuccess = () => resolve("History Added");
+        });
     }
 
-    getHistory(callback) {
+    getHistory() {
+        return new Promise((resolve, reject) => {
         const ts = this.db.transaction("CalculationHistory", "readonly");
         const store = ts.objectStore("CalculationHistory");
         const addReq = store.getAll();
-        addReq.onsuccess = () => callback(addReq.result);
+        addReq.onsuccess = () => resolve(addReq.result);
+        });
     }
 }
 
